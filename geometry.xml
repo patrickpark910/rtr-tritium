@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<geometry>
+  <cell id="1" material="3" name="Central Zr Rod" region="-1" universe="1"/>
+  <cell id="2" material="1" name="Fuel Meat" region="1 -2" universe="1"/>
+  <cell id="3" material="2" name="Cladding" region="2 -3" universe="1"/>
+  <cell id="4" material="4" name="Moderator" region="3" universe="1"/>
+  <cell id="5" material="4" universe="2"/>
+  <cell fill="3" id="6" name="Core Lattice" region="-4" universe="4"/>
+  <cell id="7" material="5" name="Graphite Reflector" region="4 -5" universe="4"/>
+  <hex_lattice id="3" n_rings="3" orientation="x">
+    <pitch>4.0</pitch>
+    <outer>2</outer>
+    <center>0.0 0.0</center>
+    <universes>
+  2 2 2
+ 2 1 1 2
+2 1 1 1 2
+ 2 1 1 2
+  2 2 2</universes>
+  </hex_lattice>
+  <surface coeffs="0.0 0.0 0.3175" id="1" type="z-cylinder"/>
+  <surface coeffs="0.0 0.0 1.82" id="2" type="z-cylinder"/>
+  <surface coeffs="0.0 0.0 1.87" id="3" type="z-cylinder"/>
+  <surface coeffs="0.0 0.0 15.0" id="4" type="z-cylinder"/>
+  <surface boundary="vacuum" coeffs="0.0 0.0 25.0" id="5" type="z-cylinder"/>
+</geometry>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<materials>
+  <material depletable="true" id="1" name="UZrH Fuel">
+    <density units="g/cm3" value="6.0"/>
+    <nuclide name="U234" wo="0.00015130000000000002"/>
+    <nuclide name="U235" wo="0.017000000000000008"/>
+    <nuclide name="U238" wo="0.06777050000000001"/>
+    <nuclide name="U236" wo="7.820000000000003e-05"/>
+    <nuclide name="Zr90" wo="0.4462138340812518"/>
+    <nuclide name="Zr91" wo="0.0983918095872869"/>
+    <nuclide name="Zr92" wo="0.1520472928799278"/>
+    <nuclide name="Zr94" wo="0.15744171821262204"/>
+    <nuclide name="Zr96" wo="0.02590534523891151"/>
+    <nuclide name="H1" wo="0.03498910826769734"/>
+    <nuclide name="H2" wo="1.0891732302659755e-05"/>
+    <sab name="h_zrh"/>
+  </material>
+  <material id="2" name="SS304 Clad">
+    <density units="g/cm3" value="7.9"/>
+    <nuclide name="Fe54" wo="0.039518907558947984"/>
+    <nuclide name="Fe56" wo="0.6433107014569371"/>
+    <nuclide name="Fe57" wo="0.015122580295722454"/>
+    <nuclide name="Fe58" wo="0.002047810688392412"/>
+    <nuclide name="Cr50" wo="0.007930004583164795"/>
+    <nuclide name="Cr52" wo="0.1590287884675572"/>
+    <nuclide name="Cr53" wo="0.01837981495548285"/>
+    <nuclide name="Cr54" wo="0.004661391993795167"/>
+    <nuclide name="Ni58" wo="0.07391747582624889"/>
+    <nuclide name="Ni60" wo="0.029453559189152517"/>
+    <nuclide name="Ni61" wo="0.0013016949938263812"/>
+    <nuclide name="Ni62" wo="0.004218304533835887"/>
+    <nuclide name="Ni64" wo="0.0011089654569363368"/>
+  </material>
+  <material id="3" name="Zr Rod">
+    <density units="g/cm3" value="6.5"/>
+    <nuclide ao="0.5145" name="Zr90"/>
+    <nuclide ao="0.1122" name="Zr91"/>
+    <nuclide ao="0.1715" name="Zr92"/>
+    <nuclide ao="0.1738" name="Zr94"/>
+    <nuclide ao="0.028" name="Zr96"/>
+  </material>
+  <material id="4" name="Light Water">
+    <density units="g/cm3" value="1.0"/>
+    <nuclide ao="1.99968852" name="H1"/>
+    <nuclide ao="0.00031148" name="H2"/>
+    <nuclide ao="0.9976206" name="O16"/>
+    <nuclide ao="0.000379" name="O17"/>
+    <nuclide ao="0.0020004" name="O18"/>
+    <sab name="c_H_in_H2O"/>
+  </material>
+  <material id="5" name="Graphite">
+    <density units="g/cm3" value="1.7"/>
+    <nuclide ao="0.988922" name="C12"/>
+    <nuclide ao="0.011078" name="C13"/>
+    <sab name="c_Graphite"/>
+  </material>
+</materials>
