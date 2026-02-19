@@ -4,229 +4,390 @@ import math
 
 def build_triga():
 
-    # ==============================================================================
-    # 1. MATERIALS
-    # ==============================================================================
-    # ... (Previous materials: Fuel, Clad, Zr Rod, Water, Graphite) ...
-    fuel = openmc.Material(name='UZrH Fuel')
+    # ==================================================================
+    # MATERIALS
+    # ==================================================================
+
+    # U-ZrH fuel meat
+    # Suppose this fuel is 10 wt% U, 90 wt% ZrH...
+    # ...of 10 wt% U, we have 20 wt% enrichment = 2 wt% U-235 and 8 wt% U-238
+    # ...of 90 wt% ZrH, we have an atom ratio H:Zr of 1.6 
+    fuel = openmc.Material(name='Fuel')
     fuel.set_density('g/cm3', 6.0)
-    fuel.add_element('U', 0.085, percent_type='wo', enrichment=20.0)
-    fuel.add_element('Zr', 0.88, percent_type='wo')
-    fuel.add_element('H', 0.035, percent_type='wo')
+    fuel.add_nuclide('U235', 0.02, percent_type='wo')
+    fuel.add_nuclide('U238', 0.08, percent_type='wo')
+    fuel.add_element('Zr', 0.8843, percent_type='wo')
+    fuel.add_element('H', 0.0157, percent_type='wo')
     fuel.add_s_alpha_beta('c_H_in_ZrH')
+    # Normally, you would define the fuel using openmc.Material.mix_materials
+    # but OpenMC currently does not support mixing materials with S(a,b) data.
+    # So, we will define the fuel composition directly.
 
-    clad = openmc.Material(name='SS304 Clad')
-    clad.set_density('g/cm3', 7.9)
-    clad.add_element('Fe', 0.70, percent_type='wo')
-    clad.add_element('Cr', 0.19, percent_type='wo')
-    clad.add_element('Ni', 0.11, percent_type='wo')
-
-    zr_rod = openmc.Material(name='Zr Rod')
+    # Zr rod - runs through center of fuel element
+    zr_rod = openmc.Material(name='Zr rod')
     zr_rod.set_density('g/cm3', 6.5)
     zr_rod.add_element('Zr', 1.0)
 
-    water = openmc.Material(name='Light Water')
+    # Light water
+    water = openmc.Material(name='Water')
     water.set_density('g/cm3', 1.0)
     water.add_element('H', 2.0)
     water.add_element('O', 1.0)
     water.add_s_alpha_beta('c_H_in_H2O')
 
+    """ Graphite """
+    # Pure carbon has density 2.2 g/cm3, but reactor graphite is about 1.6 g/cm3
+    # So 1.6/2.2 = 0.72 = ~30% porosity
     graphite = openmc.Material(name='Graphite')
-    graphite.set_density('g/cm3', 1.7)
+    graphite.set_density('g/cm3', 1.6)
     graphite.add_element('C', 1.0)
-    graphite.add_s_alpha_beta('c_Graphite')
+    graphite.add_s_alpha_beta('c_Graphite_30p')  # density 1.6/2.2 = 0.72 = 30% porosity
 
-    # --- NEW MATERIALS for Lazy Susan ---
-    aluminum = openmc.Material(name='Aluminum Rack')
-    aluminum.set_density('g/cm3', 2.7)
-    aluminum.add_element('Al', 1.0)
+    # ss304
+    ss304 = openmc.Material(name='SS304')
+    ss304.set_density('g/cm3', 8.0)
+    ss304.add_element('Fe', 0.7, percent_type='wo')  # from PNNL-15870
+    ss304.add_element('Cr', 0.2, percent_type='wo')
+    ss304.add_element('Ni', 0.1, percent_type='wo')
 
+    # Air
     air = openmc.Material(name='Air')
     air.set_density('g/cm3', 0.0012)
-    air.add_element('N', 0.78)
-    air.add_element('O', 0.21)
-    air.add_element('Ar', 0.01)
+    air.add_element('N',  0.755, percent_type='wo')  # from PNNL-15870
+    air.add_element('O',  0.232, percent_type='wo')
+    air.add_element('Ar', 0.013, percent_type='wo')
 
-    materials = openmc.Materials([fuel, clad, zr_rod, water, graphite, aluminum, air])
+    # Helium-3
+    helium = openmc.Material(name='Helium-3')
+    helium.set_density('g/cm3', 0.00016)
+    helium.add_nuclide('He3', 1.0)
+
+    # Add materials
+    materials = openmc.Materials([fuel, zr_rod, water, graphite, ss304, air, helium])
     materials.export_to_xml()
 
-    # ==============================================================================
-    # 2. GEOMETRY
-    # ==============================================================================
 
-    # --- Core Dimensions ---
-    r_zr_rod = 0.3175
-    r_fuel   = 1.82
-    r_clad   = 1.87
-    pitch    = 4.5
+    # ==================================================================
+    # GEOMETRY
+    # ==================================================================
 
-    # --- Standard Fuel Pin (Same as before) ---
-    surf_zr_rod = openmc.ZCylinder(r=r_zr_rod)
-    surf_fuel   = openmc.ZCylinder(r=r_fuel)
-    surf_clad   = openmc.ZCylinder(r=r_clad)
+    # ------------------------------------------------------------------
+    # Surfaces (1 inch = 1" = 2.54 cm)
+    # ------------------------------------------------------------------
 
-    cell_center = openmc.Cell(fill=zr_rod, region=-surf_zr_rod)
-    cell_fuel   = openmc.Cell(fill=fuel, region=+surf_zr_rod & -surf_fuel)
-    cell_clad   = openmc.Cell(fill=clad, region=+surf_fuel & -surf_clad)
-    cell_mod    = openmc.Cell(fill=water, region=+surf_clad)
-    univ_fuel_pin = openmc.Universe(cells=[cell_center, cell_fuel, cell_clad, cell_mod])
+    """ Radial surfaces """
+    r_zr        = 0.3              # [cm]  Zr pin      -- OD 0.25" = outer radius 0.3175 cm
+    r_meat      = 1.8              # [cm]  Meat        -- OD 1.40" = outer radius 1.778 cm
+    r_clad      = r_meat + 0.1     # [cm]  Clad        -- OD 1.50" = outer radius 1.905 cm
+    r_tube_in   = r_meat           # [cm]  Guide tube  
+    r_tube_out  = r_clad           # [cm]  Guide tube  
+    r_rack_in   = 30.0             # [cm]  Rotary rack -- ID 23.8" = inner radius 30.226 cm 
+    r_rack_out  = 35.0             # [cm]  Rotary rack -- OD 28.9" = outer radius 36.703 cm 
+    r_refl_in   = 26.0             # [cm]  Reflector   -- ID 17.9" = inner radius 22.733 cm
+    r_refl_out  = 48.0             # [cm]  Reflector   -- OD 41.8" = outer radius 53.086 cm
+    r_tube_in   = 1.25             # [cm]  Sample tube 
+    r_tube_out  = r_tube_in + 0.25 # [cm]  Sample tube 
+    r_vial_in   = 1.15             # [cm]  Sample vial 
+    r_vial_out  = r_vial_in + 0.10 # [cm]  Sample vial
+    r_void      = 100.0            # [cm]  Model boundary
+        
+    """ Axial surfaces """
+    z_meat_bot = 0.0                # [cm]  Meat bot
+    z_meat_top = 38.0               # [cm]  Meat top -- H 15.0" = 38.1 cm
+    z_grph_bot = z_meat_bot - 9.0   # [cm]  Graphite cap bot -- H 3.7" = 9.398 cm  
+    z_grph_top = z_meat_top + 6.0   # [cm]  Graphite cap top -- H 2.6" = 6.604 cm
+    z_pin_bot  = z_grph_bot - 0.05  # [cm]  Fuel pin bot -- Thk 0.02" = 0.0508 cm
+    z_pin_top  = z_grph_top + 0.05  # [cm]  Fuel pin top -- Thk 0.02" = 0.0508 cm
+    z_refl_bot = z_pin_bot          # [cm]  Reflector bot 
+    z_refl_top = z_pin_top          # [cm]  Reflector top 
+    z_rack_top = z_refl_top         # [cm]  Rotary rack top -- 0.02" = 0.0508 cm thick on all sides
+    z_rack_bot = z_refl_top - 25.0  # [cm]  Rotary rack bot -- H 10.2" = 25.908 cm
+    z_vial_bot = z_rack_bot         # [cm]  Sample tube bot
+    z_vial_top = z_vial_bot + 15.1  # [cm]  Sample tube top
+    z_ct_bot   = 19.0 - (15.1/2.0)  # [cm]  Central thimble bot
+    z_ct_top   = 19.0 + (15.1/2.0)  # [cm]  Central thimble top
+    z_grid_bot = z_pin_bot - 2.0    # [cm]  Grid plate bot -- H 0.75" = 1.905 cm
+    z_grid_top = z_pin_top + 2.0    # [cm]  Grid plate top -- H 0.75" = 1.905 cm
 
-    cell_all_water = openmc.Cell(fill=water)
-    univ_water = openmc.Universe(cells=[cell_all_water])
 
-    # --- Core Lattice ---
+    
+    """ Radial surface definitions """
+
+    cz_zr       = openmc.ZCylinder(r=r_zr)
+    cz_meat     = openmc.ZCylinder(r=r_meat)
+    cz_clad     = openmc.ZCylinder(r=r_clad)
+    cz_tube_in  = openmc.ZCylinder(r=r_tube_in )
+    cz_tube_out = openmc.ZCylinder(r=r_tube_out)
+    cz_rack_in  = openmc.ZCylinder(r=r_rack_in )
+    cz_rack_out = openmc.ZCylinder(r=r_rack_out)
+    cz_refl_in  = openmc.ZCylinder(r=r_refl_in )
+    cz_refl_out = openmc.ZCylinder(r=r_refl_out)
+    cz_vial_in  = openmc.ZCylinder(r=r_vial_in)
+    cz_vial_out = openmc.ZCylinder(r=r_vial_out)
+
+    """ Axial surface definitions """
+    pz_pin_bot  = openmc.ZPlane(z0=z_pin_bot)
+    pz_grph_bot = openmc.ZPlane(z0=z_grph_bot)
+    pz_meat_bot = openmc.ZPlane(z0=z_meat_bot)
+    pz_meat_top = openmc.ZPlane(z0=z_meat_top)
+    pz_grph_top = openmc.ZPlane(z0=z_grph_top)
+    pz_pin_top  = openmc.ZPlane(z0=z_pin_top)
+    pz_refl_bot = openmc.ZPlane(z0=z_refl_bot)
+    pz_refl_top = openmc.ZPlane(z0=z_refl_top)
+    pz_rack_bot = openmc.ZPlane(z0=z_rack_bot)
+    pz_rack_top = openmc.ZPlane(z0=z_rack_top)
+    pz_grid_bot = openmc.ZPlane(z0=z_grid_bot)
+    pz_grid_top = openmc.ZPlane(z0=z_grid_top)
+    pz_vial_bot = openmc.ZPlane(z0=z_vial_bot)
+    pz_vial_top = openmc.ZPlane(z0=z_vial_top)
+    pz_ct_bot   = openmc.ZPlane(z0=z_ct_bot)
+    pz_ct_top   = openmc.ZPlane(z0=z_ct_top)
+
+
+    # ------------------------------------------------------------------
+    # Cells
+    # ------------------------------------------------------------------
+
+    cell_cap_bot   = openmc.Cell(fill=ss304, region=-cz_clad & +pz_pin_bot & -pz_grph_bot)
+    cell_bot_gr    = openmc.Cell(fill=graphite, region=-cz_meat & +pz_grph_bot & -pz_meat_bot)
+    cell_bot_clad  = openmc.Cell(fill=ss304, region=+cz_meat & -cz_clad & +pz_grph_bot & -pz_meat_bot)
+    cell_fuel_zr   = openmc.Cell(fill=zr_rod,   region=-cz_zr & +pz_meat_bot & -pz_meat_top)
+    cell_fuel_meat = openmc.Cell(fill=fuel,     region=+cz_zr & -cz_meat & +pz_meat_bot & -pz_meat_top)
+    cell_fuel_clad = openmc.Cell(fill=ss304, region=+cz_meat & -cz_clad & +pz_meat_bot & -pz_meat_top)
+    cell_top_gr    = openmc.Cell(fill=graphite, region=-cz_meat & +pz_meat_top & -pz_grph_top)
+    cell_top_clad  = openmc.Cell(fill=ss304, region=+cz_meat & -cz_clad & +pz_meat_top & -pz_grph_top)
+    cell_cap_top   = openmc.Cell(fill=ss304, region=-cz_clad & +pz_grph_top & -pz_pin_top)
+
+    # Water Surround (Fills everything in the universe outside the pin)
+    pin_region = -cz_clad & +pz_pin_bot & -pz_pin_top
+    cell_water = openmc.Cell(fill=water, region=~pin_region)
+
+    univ_fuel_pin = openmc.Universe(cells=[
+        cell_cap_bot, cell_bot_gr, cell_bot_clad, 
+        cell_fuel_zr, cell_fuel_meat, cell_fuel_clad, 
+        cell_top_gr, cell_top_clad, cell_cap_top, 
+        cell_water,
+        ])
+
+    univ_water = openmc.Universe(cells=[openmc.Cell(fill=water)])
+
+
+    # ------------------------------------------------------------------
+    # Guide tube universe
+    # ------------------------------------------------------------------
+
+    # We will use the same axial Z-bounds as the fuel pin to keep it neat
+    guide_region = -cz_tube_out & +pz_pin_bot & -pz_pin_top
+
+    # Cells defining the ss304 guide tube
+    cell_guide_in  = openmc.Cell(fill=water,    region=-cz_tube_in & +pz_pin_bot & -pz_pin_top)
+    cell_guide_wall  = openmc.Cell(fill=ss304, region=+cz_tube_in & -cz_tube_out & +pz_pin_bot & -pz_pin_top)
+    
+    # Pool water filling everything outside the tube in this universe
+    cell_guide_out = openmc.Cell(fill=water, region=~guide_region)
+
+    univ_guide_tube = openmc.Universe(cells=[cell_guide_in , cell_guide_wall, cell_guide_out])
+
+
+    # ------------------------------------------------------------------
+    # Central He-3 Holder Universe (Ring A)
+    # ------------------------------------------------------------------
+    # The 8cm He-3 region
+    cell_ct = openmc.Cell(fill=helium, region=-cz_vial_in & +pz_ct_bot & -pz_ct_top)
+    
+    # Fill the rest of the lattice position with water
+    cell_ct_water = openmc.Cell(fill=water, region=~(cell_ct.region))
+    
+    univ_ct = openmc.Universe(cells=[cell_ct, cell_ct_water])
+
+    # ------------------------------------------------------------------
+    # Core lattice universe
+    # ------------------------------------------------------------------
     lattice = openmc.HexLattice()
     lattice.center = (0.0, 0.0)
-    lattice.pitch = (pitch,)
+    lattice.pitch = (4.5,) 
     lattice.outer = univ_water
-    # ringW = [univ_water]*42
-    ringG = [univ_fuel_pin]*36
-    ringF = [univ_fuel_pin]*30
-    ringE = [univ_fuel_pin]*24
-    ringD = [univ_fuel_pin]*18
-    ringC = [univ_fuel_pin]*12
-    ringB = [univ_fuel_pin]*6
-    ringA = [univ_fuel_pin]*1
-    lattice.universes = [ringG, ringF, ringE, ringD, ringC, ringB, ringA] # ringW, 
+    # Rings F through A 
+    lattice.universes = [  # numbering goes clockwise from x+ side
+    #    [univ_fuel_pin]*36, # Ring G
+        [univ_fuel_pin]*30, # Ring F
+        [univ_fuel_pin]*24, # Ring E
+        (([univ_guide_tube] + [univ_fuel_pin]*8)*2), # Ring D
+        ([univ_fuel_pin]*3 + [univ_guide_tube] + [univ_fuel_pin]*5 + [univ_guide_tube] + [univ_fuel_pin]*2), # Ring C # [univ_fuel_pin]*3 + [univ_water] + 
+        [univ_fuel_pin]*6,  # Ring B
+        [univ_ct]*1        # Ring A
+    ]
     lattice.orientation = 'x'
 
-    # ==============================================================================
-    # NEW SECTION: Rotary Specimen Rack (Lazy Susan)
-    # ==============================================================================
-    # The rack is a circular array of 40 tubes in the reflector.
-    # We model this by creating a Universe filled with air (the "watertight assembly")
-    # and placing the 40 tubes into it.
+    # ------------------------------------------------------------------
+    # Rotary rack universe
+    # ------------------------------------------------------------------
+    univ_sample_tube = openmc.Universe()
+    # Holes are 38 mm (1.9 cm radius). Using 1.8 cm for inner radius to simulate 1mm wall.
+    cell_tube_wall = openmc.Cell(fill=ss304, region=+openmc.ZCylinder(r=1.8) & -openmc.ZCylinder(r=1.9))
+    
+    # He-3 sample region
+    cell_sample    = openmc.Cell(fill=air, region=-cz_vial_in & +pz_vial_bot & -pz_vial_top) # fill=helium
+    
+    # SS304 radial cladding around the He-3
+    cell_vial_clad = openmc.Cell(fill=ss304,  region=+cz_vial_in & -cz_vial_out & +pz_vial_bot & -pz_vial_top)
+    
+    # Define the combined volume of the vial (He-3 + cladding) to cut it out of the air cell
+    vial_volume = -cz_vial_out & +pz_vial_bot & -pz_vial_top
+    
+    # Fill the remaining empty space inside the 1.8 cm tube with air
+    cell_tube_inner_air = openmc.Cell(fill=air, region=-openmc.ZCylinder(r=1.8) & ~vial_volume)
+    
+    cell_tube_ext  = openmc.Cell(fill=air, region=+openmc.ZCylinder(r=1.9)) 
+    
+    # Make sure to include the new cell_vial_clad in the universe
+    univ_sample_tube.add_cells([cell_tube_wall, cell_sample, cell_vial_clad, cell_tube_inner_air, cell_tube_ext])
 
-    # 1. Define the Specimen Tube Geometry
-    # Inner Diameter ~ 25mm -> Radius = 1.25 cm
-    # Assume Wall Thickness ~ 1mm -> Outer Radius = 1.35 cm
-    r_tube_inner = 1.25
-    r_tube_outer = 1.35
+    ls_radius = (r_rack_in  + r_rack_out) / 2.0
+    rack_universe = openmc.Universe()
+    bg_cell = openmc.Cell(fill=air, region=-openmc.ZCylinder(r=60)) 
+    rack_universe.add_cell(bg_cell)
 
-    surf_tube_in  = openmc.ZCylinder(r=r_tube_inner)
-    surf_tube_out = openmc.ZCylinder(r=r_tube_outer)
-
-    # Tube Contents: Air/Void (Empty for now)
-    cell_tube_void = openmc.Cell(fill=air, region=-surf_tube_in)
-    # Tube Wall: Aluminum
-    cell_tube_wall = openmc.Cell(fill=aluminum, region=+surf_tube_in & -surf_tube_out)
-    # Outside Tube: Air (Inside the rack housing)
-    cell_tube_ext  = openmc.Cell(fill=air, region=+surf_tube_out)
-
-    univ_sample_tube = openmc.Universe(cells=[cell_tube_void, cell_tube_wall, cell_tube_ext])
-
-
-    # 2. Place 40 Tubes in a Ring
-    ls_radius = 34.0  # Radius where the rack sits (cm)
-    n_positions = 40
-    rack_cells = []
-
-    # We create the background "Air" cell for the rack universe
-    # We will cut holes in this air cell to place the tubes
-    rack_region = openmc.ZCylinder(r=60.0) # Arbitrary large bound for this universe
-    background_air_cell = openmc.Cell(fill=air, region=-rack_region)
-    rack_universe = openmc.Universe(cells=[background_air_cell])
-
-    # Loop to generate 40 tubes
-    for i in range(n_positions):
-        angle = 2 * math.pi * i / n_positions
-        x_pos = ls_radius * math.cos(angle)
-        y_pos = ls_radius * math.sin(angle)
-        
-        # Create a copy of the tube universe shifted to this position
-        # OpenMC requires a 'fill' cell to place a universe
-        
-        # Define the hole for this specific tube position
-        # We must use a cylinder centered at x_pos, y_pos
-        cyl_surf = openmc.ZCylinder(x0=x_pos, y0=y_pos, r=r_tube_outer)
-        
-        # Cell containing the tube universe
-        c_tube = openmc.Cell(fill=univ_sample_tube)
-        c_tube.region = -cyl_surf
-        c_tube.translation = (x_pos, y_pos, 0)
-        
-        # Add this cell to the rack universe
-        rack_universe.add_cell(c_tube)
-        
-        # Update background air cell to exclude this region
-        background_air_cell.region &= +cyl_surf
-
+    for i in range(40):
+        angle = 2 * math.pi * i / 40
+        x = ls_radius * math.cos(angle)
+        y = ls_radius * math.sin(angle)
+        cyl = openmc.ZCylinder(x0=x, y0=y, r=1.9)
+        c = openmc.Cell(fill=univ_sample_tube, region=-cyl)
+        c.translation = (x, y, 0)
+        rack_universe.add_cell(c)
+        bg_cell.region &= +cyl
 
     # ==============================================================================
-    # ROOT GEOMETRY
+    # 6. ROOT GEOMETRY ASSEMBLY
     # ==============================================================================
 
-    # Surfaces defining radial regions
-    surf_core_bound = openmc.ZCylinder(r=30.0)  # Core/Lattice boundary
-    surf_rack_inner = openmc.ZCylinder(r=32.0)  # Start of Lazy Susan Well
-    surf_rack_outer = openmc.ZCylinder(r=36.0)  # End of Lazy Susan Well
-    surf_refl_outer = openmc.ZCylinder(r=40.0)  # Edge of graphite reflector
-    surf_pool_bound = openmc.ZCylinder(r=60.0, boundary_type='vacuum') # edge of pool water in model
+    # Derived Regions
+    region_refl_bulk = (+cz_refl_in  & -cz_refl_out & +pz_refl_bot & -pz_refl_top)
+    region_ls_cutout = (+cz_rack_in  & -cz_rack_out & +pz_rack_bot & -pz_refl_top) 
 
-    # 1. Central Core Region
-    cell_core = openmc.Cell(name='Core Lattice')
-    cell_core.fill = lattice
-    cell_core.region = -surf_core_bound
+    # 1-4. Solid Components
+    cell_core        = openmc.Cell(name='Core',               fill=lattice,       region=-cz_refl_in & +pz_pin_bot  & -pz_pin_top)
+    cell_reflector   = openmc.Cell(name='Graphite Reflector', fill=graphite,      region=region_refl_bulk & ~region_ls_cutout)
+    cell_rack        = openmc.Cell(name='Lazy Susan',         fill=rack_universe, region=region_ls_cutout)
+    cell_grid_bot    = openmc.Cell(name='Bottom Grid',        fill=ss304,      region=-cz_refl_in & +pz_grid_bot & -pz_pin_bot)
+    cell_grid_top    = openmc.Cell(name='Top Grid',           fill=ss304,      region=-cz_refl_in & +pz_pin_top  & -pz_grid_top)
 
-    # 2. Inner Graphite Reflector (Between core and rack)
-    cell_refl_inner = openmc.Cell(name='Graphite Inner')
-    cell_refl_inner.fill = graphite
-    cell_refl_inner.region = +surf_core_bound & -surf_rack_inner
+    # 5. Pool Water boundaries
+    pool             = openmc.ZCylinder(r=100.0, boundary_type='vacuum')
+    pool_top         = openmc.ZPlane(z0=200.0,   boundary_type='vacuum')
+    pool_bot         = openmc.ZPlane(z0=-100.0,  boundary_type='vacuum')
 
-    # 3. The Lazy Susan Well (Filled with our Rack Universe)
-    cell_rack = openmc.Cell(name='Lazy Susan Rack')
-    cell_rack.fill = rack_universe
-    cell_rack.region = +surf_rack_inner & -surf_rack_outer
+    cell_pool        = openmc.Cell(name='Pool Water', fill=water)
+    cell_pool.region = (+pool_bot & -pool_top & -pool) \
+                     & ~(cell_core.region)             \
+                     & ~(cell_reflector.region)        \
+                     & ~(cell_rack.region)             \
+                     & ~(cell_grid_bot.region)         \
+                     & ~(cell_grid_top.region)
 
-    # 4. Outer Graphite Reflector
-    cell_refl_outer = openmc.Cell(name='Graphite Outer')
-    cell_refl_outer.fill = graphite
-    cell_refl_outer.region = +surf_rack_outer & -surf_refl_outer
+    geometry         = openmc.Geometry(root=[cell_core, cell_reflector, cell_rack, cell_grid_bot, cell_grid_top, cell_pool])
+    # geometry.export_to_xml()
 
-    cell_pool = openmc.Cell(name='Reactor Pool', fill=water)
-    cell_pool.region = +surf_refl_outer & -surf_pool_bound
 
-    geometry = openmc.Geometry(root=[cell_core, cell_refl_inner, cell_rack, cell_refl_outer, cell_pool])
-    geometry.export_to_xml()
-
-    # Settings (Same as before)
+    # ==================================================================
+    # SETTINGS
+    # ==================================================================
     settings = openmc.Settings()
     settings.batches = 50
     settings.inactive = 10
-    settings.particles = 1000
-    settings.source = openmc.IndependentSource(space=openmc.stats.Point())
-    settings.export_to_xml()
+    settings.particles = int(1e5)
+    # Define a spatial bounding box for the starting source particles inside the core
+    bounds = [-20, -20, z_meat_bot, 20, 20, z_meat_top]
+    uniform_dist = openmc.stats.Box(bounds[:3], bounds[3:])
+    settings.source = openmc.IndependentSource(space=uniform_dist)
+    # settings.export_to_xml()
 
-    print("TRIGA model with Lazy Susan generated.")
+    print("Full 3D TRIGA Geometry with Simplified Pins Generated.")
+
+
+    # ==================================================================
+    # TALLIES
+    # ==================================================================
+    tallies = openmc.Tallies()
+    cell_filter = openmc.CellFilter([cell_ct, cell_sample])
+
+    # He-3(n,p)T
+    he3_tally = openmc.Tally(name='He3_np_RotaryRack')  
+    he3_tally.filters = [cell_filter]
+    he3_tally.nuclides = ['He3']
+    he3_tally.scores = ['(n,p)']
+    tallies.append(he3_tally)
+
+    # Flux
+    flux_tally = openmc.Tally(name='Flux_RotaryRack')  
+    flux_tally.filters = [cell_filter]
+    flux_tally.scores = ['flux']
+    tallies.append(flux_tally)
+
+    # tallies.export_to_xml()
+    
+    print("Tallies exported successfully.")
 
 
     # ==============================================================================
     # 4. PLOTTING
     # ==============================================================================
-
-    # Create a plot of the XY plane (Top-down view)
-    plot = openmc.Plot()
-    plot.filename = 'triga_geometry_plot'
-    plot.basis = 'xy'
-    plot.origin = (0, 0, 0)
-    plot.width = (82, 82)       # 65x65 cm view to see the 30cm radius reflector
-    plot.pixels = (1640, 1640)      # High resolution
-
-    # Color the materials for easier identification
-    plot.color_by = 'material'
-    plot.colors = {
+    
+    # Define a common color scheme dictionary
+    material_colors = {
         fuel: 'orange',
-        clad: 'black',
         water: 'cyan',
         graphite: 'gray',
-        aluminum: 'green',        # The Rack Housing
-        air: 'white',              # Inside the sample tubes
-        zr_rod: 'red'
+        ss304: 'green',        # Rack housing, cladding, grid plates
+        air: 'white',             # Inside sample tubes, lazy susan groove
+        zr_rod: 'red',
+        helium: 'magenta',
     }
 
-    # Add the plot to a Plots collection and export
-    plots = openmc.Plots([plot])
+    # --- Plot 1: XY Plane (Top-down view) ---
+    plot_xy = openmc.Plot()
+    plot_xy.filename = 'triga_xy_plot'
+    plot_xy.basis = 'xy'
+    # Z=19.05 cm is the vertical midplane of the 38.1 cm active fuel
+    plot_xy.origin = (0, 0, 24) 
+    plot_xy.width = (110, 110)      # 110cm wide to see the full 53cm radius reflector
+    plot_xy.pixels = (2200, 2200)   # High resolution
+    plot_xy.color_by = 'material'
+    plot_xy.colors = material_colors
+
+    # --- Plot 2: XZ Plane (Side view) ---
+    plot_xz = openmc.Plot()
+    plot_xz.filename = 'triga_xz_plot'
+    plot_xz.basis = 'xz'
+    # Center on the core midplane
+    plot_xz.origin = (0, 0, 19.05)
+    plot_xz.width = (110, 110)      # 110cm wide and tall to see the axial reflectors and grids
+    plot_xz.pixels = (2200, 2200)
+    plot_xz.color_by = 'material'
+    plot_xz.colors = material_colors
+
+    # Add both plots to a Plots collection and export
+    plots = openmc.Plots([plot_xy, plot_xz])
     plots.export_to_xml()
+
+
+    # ==============================================================================
+    # MODEL EXPORT
+    # ==============================================================================
+    
+    # Combine all objects into a single OpenMC Model
+    model = openmc.Model(
+        materials=materials,
+        geometry=geometry,
+        settings=settings,
+        tallies=tallies,
+        plots=plots
+    )
+    
+    # Export everything to a single model.xml file
+    model.export_to_xml()
+
 
     # Run the plot generation
     openmc.plot_geometry()

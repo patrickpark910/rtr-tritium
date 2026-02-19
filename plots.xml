@@ -1,15 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <plots>
-  <plot id="1" filename="triga_geometry_plot" color_by="material" type="slice" basis="xy">
-    <pixels>1640 1640</pixels>
-    <origin>0 0 0</origin>
-    <width>82 82</width>
+  <plot id="1" filename="triga_xy_plot" color_by="material" type="slice" basis="xy">
+    <pixels>2200 2200</pixels>
+    <origin>0 0 24</origin>
+    <width>110 110</width>
     <color id="1" rgb="255 165 0"/>
-    <color id="2" rgb="0 0 0"/>
-    <color id="3" rgb="255 0 0"/>
-    <color id="4" rgb="0 255 255"/>
-    <color id="5" rgb="128 128 128"/>
-    <color id="6" rgb="0 128 0"/>
-    <color id="7" rgb="255 255 255"/>
+    <color id="2" rgb="255 0 0"/>
+    <color id="3" rgb="0 255 255"/>
+    <color id="4" rgb="128 128 128"/>
+    <color id="5" rgb="0 128 0"/>
+    <color id="6" rgb="255 255 255"/>
+    <color id="7" rgb="255 0 255"/>
+  </plot>
+  <plot id="2" filename="triga_xz_plot" color_by="material" type="slice" basis="xz">
+    <pixels>2200 2200</pixels>
+    <origin>0 0 19.05</origin>
+    <width>110 110</width>
+    <color id="1" rgb="255 165 0"/>
+    <color id="2" rgb="255 0 0"/>
+    <color id="3" rgb="0 255 255"/>
+    <color id="4" rgb="128 128 128"/>
+    <color id="5" rgb="0 128 0"/>
+    <color id="6" rgb="255 255 255"/>
+    <color id="7" rgb="255 0 255"/>
   </plot>
 </plots>

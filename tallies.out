@@ -1,0 +1,16 @@
+ ==================>     TALLY 1: HE3_NP_ROTARYRACK     <===================
+
+ Cell 15
+   He3
+     (n,p)                                0.00209933 +/- 1.9376e-05
+ Cell 18
+   He3
+     (n,p)                                0 +/- 0
+ ===================>     TALLY 2: FLUX_ROTARYRACK     <====================
+
+ Cell 15
+   Total Material
+     Flux                                 0.0439588 +/- 0.000193656
+ Cell 18
+   Total Material
+     Flux                                 0.251427 +/- 0.00063754
