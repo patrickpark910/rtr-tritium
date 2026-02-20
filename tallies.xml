@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <tallies>
   <filter id="1" type="cell">
-    <bins>15 18</bins>
+    <bins>15 110</bins>
   </filter>
   <tally id="1" name="He3_np_RotaryRack">
     <filters>1</filters>

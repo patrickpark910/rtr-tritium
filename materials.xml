@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <materials>
-  <material id="1" name="Fuel" depletable="true">
+  <material id="1" name="Fuel" depletable="true" temperature="600.0">
     <density value="6.0" units="g/cm3"/>
     <nuclide name="U235" wo="0.02"/>
     <nuclide name="U238" wo="0.08"/>
@@ -12,6 +12,7 @@
     <nuclide name="H1" wo="0.015695114280081378"/>
     <nuclide name="H2" wo="4.8857199186216605e-06"/>
     <sab name="c_H_in_ZrH"/>
+    <sab name="c_Zr_in_ZrH"/>
   </material>
   <material id="2" name="Zr rod">
     <density value="6.5" units="g/cm3"/>
@@ -34,10 +35,10 @@
     <density value="1.6" units="g/cm3"/>
     <nuclide name="C12" ao="0.988922"/>
     <nuclide name="C13" ao="0.011078"/>
-    <sab name="c_Graphite_30p"/>
+    <sab name="c_Graphite_20p"/>
   </material>
   <material id="5" name="SS304">
-    <density value="8.0" units="g/cm3"/>
+    <density value="7.8" units="g/cm3"/>
     <nuclide name="Fe54" wo="0.039518907558947984"/>
     <nuclide name="Fe56" wo="0.6433107014569371"/>
     <nuclide name="Fe57" wo="0.015122580295722454"/>
@@ -64,7 +65,7 @@
     <nuclide name="Ar40" wo="0.012953182357379323"/>
   </material>
   <material id="7" name="Helium-3">
-    <density value="0.00016" units="g/cm3"/>
+    <density value="0.008375" units="g/cm3"/>
     <nuclide name="He3" ao="1.0"/>
   </material>
 </materials>

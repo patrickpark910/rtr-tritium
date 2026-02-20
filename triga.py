@@ -8,17 +8,19 @@ def build_triga():
     # MATERIALS
     # ==================================================================
 
-    # U-ZrH fuel meat
+    # U-ZrH fuel meat (10 wt% U in U-ZrH / 20 wt% enriched U = "10 by 20" fuel)
     # Suppose this fuel is 10 wt% U, 90 wt% ZrH...
     # ...of 10 wt% U, we have 20 wt% enrichment = 2 wt% U-235 and 8 wt% U-238
-    # ...of 90 wt% ZrH, we have an atom ratio H:Zr of 1.6 
+    # ...of 90 wt% ZrH, we have an atom ratio H/Zr of 1.6 = 1.74 wt%/98.26 wt% = 1.57 wt% H, 88.43 wt% Zr in the fuel
     fuel = openmc.Material(name='Fuel')
     fuel.set_density('g/cm3', 6.0)
     fuel.add_nuclide('U235', 0.02, percent_type='wo')
     fuel.add_nuclide('U238', 0.08, percent_type='wo')
     fuel.add_element('Zr', 0.8843, percent_type='wo')
     fuel.add_element('H', 0.0157, percent_type='wo')
+    fuel.temperature = 600.0  # [K] -- ranges 600-800 K, peak 1000 K centerline
     fuel.add_s_alpha_beta('c_H_in_ZrH')
+    fuel.add_s_alpha_beta('c_Zr_in_ZrH')  # Using H in H2O S(a,b) data for the remaining H in ZrH, which is a common approximation
     # Normally, you would define the fuel using openmc.Material.mix_materials
     # but OpenMC currently does not support mixing materials with S(a,b) data.
     # So, we will define the fuel composition directly.
@@ -41,14 +43,15 @@ def build_triga():
     graphite = openmc.Material(name='Graphite')
     graphite.set_density('g/cm3', 1.6)
     graphite.add_element('C', 1.0)
-    graphite.add_s_alpha_beta('c_Graphite_30p')  # density 1.6/2.2 = 0.72 = 30% porosity
+    graphite.add_s_alpha_beta('c_Graphite_20p')  # density 1.6/2.2 = 0.72 = 30% porosity
 
     # ss304
     ss304 = openmc.Material(name='SS304')
-    ss304.set_density('g/cm3', 8.0)
+    ss304.set_density('g/cm3', 7.8)
     ss304.add_element('Fe', 0.7, percent_type='wo')  # from PNNL-15870
     ss304.add_element('Cr', 0.2, percent_type='wo')
     ss304.add_element('Ni', 0.1, percent_type='wo')
+    # ss304.add_s_alpha_beta('c_Fe56')  
 
     # Air
     air = openmc.Material(name='Air')
@@ -59,7 +62,7 @@ def build_triga():
 
     # Helium-3
     helium = openmc.Material(name='Helium-3')
-    helium.set_density('g/cm3', 0.00016)
+    helium.set_density('g/cm3', 0.008375) # at 1000 psi  # 0.00016 g/cm3 at 21 C
     helium.add_nuclide('He3', 1.0)
 
     # Add materials
@@ -77,13 +80,13 @@ def build_triga():
 
     """ Radial surfaces """
     r_zr        = 0.3              # [cm]  Zr pin      -- OD 0.25" = outer radius 0.3175 cm
-    r_meat      = 1.8              # [cm]  Meat        -- OD 1.40" = outer radius 1.778 cm
-    r_clad      = r_meat + 0.1     # [cm]  Clad        -- OD 1.50" = outer radius 1.905 cm
+    r_meat      = 1.9              # [cm]  Meat        -- OD 1.40" = outer radius 1.778 cm
+    r_clad      = r_meat + 0.05    # [cm]  Clad        -- OD 1.50" = outer radius 1.905 cm
     r_tube_in   = r_meat           # [cm]  Guide tube  
     r_tube_out  = r_clad           # [cm]  Guide tube  
-    r_rack_in   = 30.0             # [cm]  Rotary rack -- ID 23.8" = inner radius 30.226 cm 
-    r_rack_out  = 35.0             # [cm]  Rotary rack -- OD 28.9" = outer radius 36.703 cm 
-    r_refl_in   = 26.0             # [cm]  Reflector   -- ID 17.9" = inner radius 22.733 cm
+    r_rack_in   = 29.0             # [cm]  Rotary rack -- ID 23.8" = inner radius 30.226 cm 
+    r_rack_out  = 34.0             # [cm]  Rotary rack -- OD 28.9" = outer radius 36.703 cm 
+    r_refl_in   = 24.0             # [cm]  Reflector   -- ID 17.9" = inner radius 22.733 cm
     r_refl_out  = 48.0             # [cm]  Reflector   -- OD 41.8" = outer radius 53.086 cm
     r_tube_in   = 1.25             # [cm]  Sample tube 
     r_tube_out  = r_tube_in + 0.25 # [cm]  Sample tube 
@@ -106,8 +109,8 @@ def build_triga():
     z_vial_top = z_vial_bot + 15.1  # [cm]  Sample tube top
     z_ct_bot   = 19.0 - (15.1/2.0)  # [cm]  Central thimble bot
     z_ct_top   = 19.0 + (15.1/2.0)  # [cm]  Central thimble top
-    z_grid_bot = z_pin_bot - 2.0    # [cm]  Grid plate bot -- H 0.75" = 1.905 cm
-    z_grid_top = z_pin_top + 2.0    # [cm]  Grid plate top -- H 0.75" = 1.905 cm
+    z_grid_bot = z_pin_bot - 0.5    # [cm]  Grid plate bot -- H 0.75" = 1.905 cm
+    z_grid_top = z_pin_top + 0.5    # [cm]  Grid plate top -- H 0.75" = 1.905 cm
 
 
     
@@ -201,23 +204,60 @@ def build_triga():
     univ_ct = openmc.Universe(cells=[cell_ct, cell_ct_water])
 
     # ------------------------------------------------------------------
-    # Core lattice universe
+    # Core concentric ring universe
     # ------------------------------------------------------------------
-    lattice = openmc.HexLattice()
-    lattice.center = (0.0, 0.0)
-    lattice.pitch = (4.5,) 
-    lattice.outer = univ_water
-    # Rings F through A 
-    lattice.universes = [  # numbering goes clockwise from x+ side
-    #    [univ_fuel_pin]*36, # Ring G
-        [univ_fuel_pin]*30, # Ring F
-        [univ_fuel_pin]*24, # Ring E
-        (([univ_guide_tube] + [univ_fuel_pin]*8)*2), # Ring D
-        ([univ_fuel_pin]*3 + [univ_guide_tube] + [univ_fuel_pin]*5 + [univ_guide_tube] + [univ_fuel_pin]*2), # Ring C # [univ_fuel_pin]*3 + [univ_water] + 
-        [univ_fuel_pin]*6,  # Ring B
-        [univ_ct]*1        # Ring A
-    ]
-    lattice.orientation = 'x'
+    core_universe = openmc.Universe(name='Concentric Core')
+    
+    # Fill the background of the core with pool water. 
+    # We will "punch holes" in this water for each pin location.
+    core_bg_cell = openmc.Cell(name='Core Background', fill=water)
+    core_universe.add_cell(core_bg_cell)
+    
+    pitch = 4.2       # [cm] Standard TRIGA pin-to-pin pitch
+    pin_radius = 1.95  # [cm] Bounding radius for the translation cell (must be > clad r=1.905 and < pitch/2)
+
+    def place_element(universe, x, y):
+        # Create the bounding cylinder directly at the (x, y) coordinates
+        pin_boundary = openmc.ZCylinder(x0=x, y0=y, r=pin_radius)
+        
+        # Fill the region inside this boundary with the target universe
+        cell = openmc.Cell(fill=universe, region=-pin_boundary)
+        
+        # Translate the coordinates of the internal universe so it centers on (x,y)
+        cell.translation = (x, y, 0)
+        core_universe.add_cell(cell)
+        
+        # Punch a hole in the core background water at this exact location
+        if core_bg_cell.region is None:
+            core_bg_cell.region = +pin_boundary
+        else:
+            core_bg_cell.region &= +pin_boundary
+
+    # Ring A (Center)
+    place_element(univ_ct, 0.0, 0.0)
+
+    # Define the number of elements per ring (TRIGA standard: 6, 12, 18, 24, 30)
+    ring_counts = [6, 12, 18, 24, 30]
+    
+    # Maintain your exact layout of guide tubes vs fuel pins
+    ring_elements = {
+        0: [univ_fuel_pin] * 6,                                                                                # Ring B
+        1: [univ_fuel_pin]*3 + [univ_guide_tube] + [univ_fuel_pin]*5 + [univ_guide_tube] + [univ_fuel_pin]*2,  # Ring C
+        2: ([univ_guide_tube] + [univ_fuel_pin]*8) * 2,                                                        # Ring D
+        3: [univ_fuel_pin] * 24,                                                                               # Ring E
+        4: [univ_fuel_pin] * 30                                                                                # Ring F
+    }
+
+    # Loop through and calculate polar coordinates for each pin
+    for ring_idx, count in enumerate(ring_counts):
+        radius = (ring_idx + 1) * pitch
+        elements = ring_elements[ring_idx]
+        
+        for i in range(count):
+            angle = 2 * math.pi * i / count
+            x = radius * math.cos(angle)
+            y = radius * math.sin(angle)
+            place_element(elements[i], x, y)
 
     # ------------------------------------------------------------------
     # Rotary rack universe
@@ -227,7 +267,7 @@ def build_triga():
     cell_tube_wall = openmc.Cell(fill=ss304, region=+openmc.ZCylinder(r=1.8) & -openmc.ZCylinder(r=1.9))
     
     # He-3 sample region
-    cell_sample    = openmc.Cell(fill=air, region=-cz_vial_in & +pz_vial_bot & -pz_vial_top) # fill=helium
+    cell_sample    = openmc.Cell(fill=helium, region=-cz_vial_in & +pz_vial_bot & -pz_vial_top) # fill=helium
     
     # SS304 radial cladding around the He-3
     cell_vial_clad = openmc.Cell(fill=ss304,  region=+cz_vial_in & -cz_vial_out & +pz_vial_bot & -pz_vial_top)
@@ -267,7 +307,7 @@ def build_triga():
     region_ls_cutout = (+cz_rack_in  & -cz_rack_out & +pz_rack_bot & -pz_refl_top) 
 
     # 1-4. Solid Components
-    cell_core        = openmc.Cell(name='Core',               fill=lattice,       region=-cz_refl_in & +pz_pin_bot  & -pz_pin_top)
+    cell_core        = openmc.Cell(name='Core',               fill=core_universe, region=-cz_refl_in & +pz_pin_bot  & -pz_pin_top)
     cell_reflector   = openmc.Cell(name='Graphite Reflector', fill=graphite,      region=region_refl_bulk & ~region_ls_cutout)
     cell_rack        = openmc.Cell(name='Lazy Susan',         fill=rack_universe, region=region_ls_cutout)
     cell_grid_bot    = openmc.Cell(name='Bottom Grid',        fill=ss304,      region=-cz_refl_in & +pz_grid_bot & -pz_pin_bot)

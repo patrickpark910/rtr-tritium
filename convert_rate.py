@@ -1,6 +1,6 @@
 def calculate_tritium_production(
     power_mw: float, 
-    rxn_per_neutron: float = 0.012495,
+    rxn_per_neutron: float = 0.039689,
     energy_per_event_mev: float = 200.0,
     neutrons_per_event: float = 2.43
 ) -> float:
