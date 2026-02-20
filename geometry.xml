@@ -1,327 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <geometry>
-  <cell id="1" material="5" region="-3 12 -13" universe="1"/>
-  <cell id="2" material="4" region="-2 13 -14" universe="1"/>
-  <cell id="3" material="5" region="2 -3 13 -14" universe="1"/>
-  <cell id="4" material="2" region="-1 14 -15" universe="1"/>
-  <cell id="5" material="1" region="1 -2 14 -15" universe="1"/>
-  <cell id="6" material="5" region="2 -3 14 -15" universe="1"/>
-  <cell id="7" material="4" region="-2 15 -16" universe="1"/>
-  <cell id="8" material="5" region="2 -3 15 -16" universe="1"/>
-  <cell id="9" material="5" region="-3 16 -17" universe="1"/>
-  <cell id="10" material="3" region="3 | -12 | 17" universe="1"/>
-  <cell id="12" material="3" region="-4 12 -17" universe="3"/>
-  <cell id="13" material="5" region="4 -5 12 -17" universe="3"/>
-  <cell id="14" material="3" region="5 | -12 | 17" universe="3"/>
-  <cell id="15" material="7" region="-10 26 -27" universe="4"/>
-  <cell id="16" material="3" region="10 | -26 | 27" universe="4"/>
-  <cell id="17" name="Core Background" material="3" region="28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118" universe="5"/>
-  <cell id="18" fill="4" region="-28" translation="0.0 0.0 0.0" universe="5"/>
-  <cell id="19" fill="1" region="-29" translation="4.2 0.0 0.0" universe="5"/>
-  <cell id="20" fill="1" region="-30" translation="2.1000000000000005 3.637306695894642 0.0" universe="5"/>
-  <cell id="21" fill="1" region="-31" translation="-2.099999999999999 3.6373066958946425 0.0" universe="5"/>
-  <cell id="22" fill="1" region="-32" translation="-4.2 5.143516556418884e-16 0.0" universe="5"/>
-  <cell id="23" fill="1" region="-33" translation="-2.100000000000002 -3.637306695894641 0.0" universe="5"/>
-  <cell id="24" fill="1" region="-34" translation="2.1000000000000005 -3.637306695894642 0.0" universe="5"/>
-  <cell id="25" fill="1" region="-35" translation="8.4 0.0 0.0" universe="5"/>
-  <cell id="26" fill="1" region="-36" translation="7.274613391789285 4.199999999999999 0.0" universe="5"/>
-  <cell id="27" fill="1" region="-37" translation="4.200000000000001 7.274613391789284 0.0" universe="5"/>
-  <cell id="28" fill="3" region="-38" translation="5.143516556418884e-16 8.4 0.0" universe="5"/>
-  <cell id="29" fill="1" region="-39" translation="-4.199999999999998 7.274613391789285 0.0" universe="5"/>
-  <cell id="30" fill="1" region="-40" translation="-7.274613391789285 4.199999999999999 0.0" universe="5"/>
-  <cell id="31" fill="1" region="-41" translation="-8.4 1.0287033112837768e-15 0.0" universe="5"/>
-  <cell id="32" fill="1" region="-42" translation="-7.274613391789287 -4.1999999999999975 0.0" universe="5"/>
-  <cell id="33" fill="1" region="-43" translation="-4.200000000000004 -7.274613391789282 0.0" universe="5"/>
-  <cell id="34" fill="3" region="-44" translation="-1.543054966925665e-15 -8.4 0.0" universe="5"/>
-  <cell id="35" fill="1" region="-45" translation="4.200000000000001 -7.274613391789284 0.0" universe="5"/>
-  <cell id="36" fill="1" region="-46" translation="7.274613391789282 -4.200000000000004 0.0" universe="5"/>
-  <cell id="37" fill="3" region="-47" translation="12.600000000000001 0.0 0.0" universe="5"/>
-  <cell id="38" fill="1" region="-48" translation="11.840127021902447 4.309453805903426 0.0" universe="5"/>
-  <cell id="39" fill="1" region="-49" translation="9.652159983299125 8.099123882050396 0.0" universe="5"/>
-  <cell id="40" fill="1" region="-50" translation="6.3000000000000025 10.911920087683928 0.0" universe="5"/>
-  <cell id="41" fill="1" region="-51" translation="2.1879670386033236 12.408577687953823 0.0" universe="5"/>
-  <cell id="42" fill="1" region="-52" translation="-2.187967038603322 12.408577687953823 0.0" universe="5"/>
-  <cell id="43" fill="1" region="-53" translation="-6.299999999999998 10.91192008768393 0.0" universe="5"/>
-  <cell id="44" fill="1" region="-54" translation="-9.652159983299123 8.099123882050398 0.0" universe="5"/>
-  <cell id="45" fill="1" region="-55" translation="-11.840127021902447 4.309453805903428 0.0" universe="5"/>
-  <cell id="46" fill="3" region="-56" translation="-12.600000000000001 1.5430549669256653e-15 0.0" universe="5"/>
-  <cell id="47" fill="1" region="-57" translation="-11.840127021902447 -4.309453805903425 0.0" universe="5"/>
-  <cell id="48" fill="1" region="-58" translation="-9.652159983299128 -8.09912388205039 0.0" universe="5"/>
-  <cell id="49" fill="1" region="-59" translation="-6.300000000000006 -10.911920087683924 0.0" universe="5"/>
-  <cell id="50" fill="1" region="-60" translation="-2.1879670386033223 -12.408577687953823 0.0" universe="5"/>
-  <cell id="51" fill="1" region="-61" translation="2.187967038603318 -12.408577687953823 0.0" universe="5"/>
-  <cell id="52" fill="1" region="-62" translation="6.299999999999993 -10.911920087683933 0.0" universe="5"/>
-  <cell id="53" fill="1" region="-63" translation="9.652159983299121 -8.0991238820504 0.0" universe="5"/>
-  <cell id="54" fill="1" region="-64" translation="11.840127021902447 -4.309453805903425 0.0" universe="5"/>
-  <cell id="55" fill="1" region="-65" translation="16.8 0.0 0.0" universe="5"/>
-  <cell id="56" fill="1" region="-66" translation="16.22755388165635 4.348159957722348 0.0" universe="5"/>
-  <cell id="57" fill="1" region="-67" translation="14.54922678357857 8.399999999999999 0.0" universe="5"/>
-  <cell id="58" fill="1" region="-68" translation="11.879393923934 11.879393923933998 0.0" universe="5"/>
-  <cell id="59" fill="1" region="-69" translation="8.400000000000002 14.549226783578568 0.0" universe="5"/>
-  <cell id="60" fill="1" region="-70" translation="4.348159957722348 16.22755388165635 0.0" universe="5"/>
-  <cell id="61" fill="1" region="-71" translation="1.0287033112837768e-15 16.8 0.0" universe="5"/>
-  <cell id="62" fill="1" region="-72" translation="-4.348159957722347 16.22755388165635 0.0" universe="5"/>
-  <cell id="63" fill="1" region="-73" translation="-8.399999999999997 14.54922678357857 0.0" universe="5"/>
-  <cell id="64" fill="1" region="-74" translation="-11.879393923933998 11.879393923934 0.0" universe="5"/>
-  <cell id="65" fill="1" region="-75" translation="-14.54922678357857 8.399999999999999 0.0" universe="5"/>
-  <cell id="66" fill="1" region="-76" translation="-16.227553881656345 4.348159957722353 0.0" universe="5"/>
-  <cell id="67" fill="1" region="-77" translation="-16.8 2.0574066225675536e-15 0.0" universe="5"/>
-  <cell id="68" fill="1" region="-78" translation="-16.22755388165635 -4.348159957722349 0.0" universe="5"/>
-  <cell id="69" fill="1" region="-79" translation="-14.549226783578574 -8.399999999999995 0.0" universe="5"/>
-  <cell id="70" fill="1" region="-80" translation="-11.879393923934005 -11.879393923933993 0.0" universe="5"/>
-  <cell id="71" fill="1" region="-81" translation="-8.400000000000007 -14.549226783578565 0.0" universe="5"/>
-  <cell id="72" fill="1" region="-82" translation="-4.348159957722347 -16.22755388165635 0.0" universe="5"/>
-  <cell id="73" fill="1" region="-83" translation="-3.08610993385133e-15 -16.8 0.0" universe="5"/>
-  <cell id="74" fill="1" region="-84" translation="4.348159957722341 -16.227553881656352 0.0" universe="5"/>
-  <cell id="75" fill="1" region="-85" translation="8.400000000000002 -14.549226783578568 0.0" universe="5"/>
-  <cell id="76" fill="1" region="-86" translation="11.879393923933996 -11.879393923934002 0.0" universe="5"/>
-  <cell id="77" fill="1" region="-87" translation="14.549226783578565 -8.400000000000007 0.0" universe="5"/>
-  <cell id="78" fill="1" region="-88" translation="16.227553881656345 -4.348159957722363 0.0" universe="5"/>
-  <cell id="79" fill="1" region="-89" translation="21.0 0.0 0.0" universe="5"/>
-  <cell id="80" fill="1" region="-90" translation="20.54109961540992 4.366145507172946 0.0" universe="5"/>
-  <cell id="81" fill="1" region="-91" translation="19.18445461049462 8.541469504591802 0.0" universe="5"/>
-  <cell id="82" fill="1" region="-92" translation="16.989356881873896 12.343490298141935 0.0" universe="5"/>
-  <cell id="83" fill="1" region="-93" translation="14.051742733536024 15.606041335025276 0.0" universe="5"/>
-  <cell id="84" fill="1" region="-94" translation="10.500000000000002 18.186533479473212 0.0" universe="5"/>
-  <cell id="85" fill="1" region="-95" translation="6.4893568818738965 19.972186842198223 0.0" universe="5"/>
-  <cell id="86" fill="1" region="-96" translation="2.1950977286207225 20.88495980273374 0.0" universe="5"/>
-  <cell id="87" fill="1" region="-97" translation="-2.19509772862072 20.884959802733743 0.0" universe="5"/>
-  <cell id="88" fill="1" region="-98" translation="-6.489356881873894 19.972186842198226 0.0" universe="5"/>
-  <cell id="89" fill="1" region="-99" translation="-10.499999999999995 18.186533479473212 0.0" universe="5"/>
-  <cell id="90" fill="1" region="-100" translation="-14.051742733536017 15.606041335025283 0.0" universe="5"/>
-  <cell id="91" fill="1" region="-101" translation="-16.989356881873896 12.343490298141939 0.0" universe="5"/>
-  <cell id="92" fill="1" region="-102" translation="-19.18445461049462 8.5414695045918 0.0" universe="5"/>
-  <cell id="93" fill="1" region="-103" translation="-20.54109961540992 4.366145507172946 0.0" universe="5"/>
-  <cell id="94" fill="1" region="-104" translation="-21.0 1.1897631685060758e-14 0.0" universe="5"/>
-  <cell id="95" fill="1" region="-105" translation="-20.54109961540992 -4.3661455071729405 0.0" universe="5"/>
-  <cell id="96" fill="1" region="-106" translation="-19.18445461049462 -8.541469504591804 0.0" universe="5"/>
-  <cell id="97" fill="1" region="-107" translation="-16.9893568818739 -12.343490298141933 0.0" universe="5"/>
-  <cell id="98" fill="1" region="-108" translation="-14.051742733536027 -15.606041335025274 0.0" universe="5"/>
-  <cell id="99" fill="1" region="-109" translation="-10.500000000000009 -18.186533479473205 0.0" universe="5"/>
-  <cell id="100" fill="1" region="-110" translation="-6.489356881873899 -19.972186842198223 0.0" universe="5"/>
-  <cell id="101" fill="1" region="-111" translation="-2.195097728620739 -20.88495980273374 0.0" universe="5"/>
-  <cell id="102" fill="1" region="-112" translation="2.1950977286207127 -20.884959802733743 0.0" universe="5"/>
-  <cell id="103" fill="1" region="-113" translation="6.489356881873892 -19.972186842198226 0.0" universe="5"/>
-  <cell id="104" fill="1" region="-114" translation="10.500000000000002 -18.186533479473212 0.0" universe="5"/>
-  <cell id="105" fill="1" region="-115" translation="14.051742733536027 -15.606041335025274 0.0" universe="5"/>
-  <cell id="106" fill="1" region="-116" translation="16.989356881873896 -12.34349029814194 0.0" universe="5"/>
-  <cell id="107" fill="1" region="-117" translation="19.18445461049462 -8.541469504591802 0.0" universe="5"/>
-  <cell id="108" fill="1" region="-118" translation="20.54109961540992 -4.366145507172939 0.0" universe="5"/>
-  <cell id="109" material="5" region="119 -120" universe="6"/>
-  <cell id="110" material="7" region="-10 24 -25" universe="6"/>
-  <cell id="111" material="5" region="10 -11 24 -25" universe="6"/>
-  <cell id="112" material="6" region="-121 (11 | -24 | 25)" universe="6"/>
-  <cell id="113" material="6" region="122" universe="6"/>
-  <cell id="114" material="6" region="-123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163" universe="7"/>
-  <cell id="115" fill="6" region="-124" translation="31.5 0.0 0.0" universe="7"/>
-  <cell id="116" fill="6" region="-125" translation="31.11218272874684 4.927685648767272 0.0" universe="7"/>
-  <cell id="117" fill="6" region="-126" translation="29.958280263297336 9.734035322810843 0.0" universe="7"/>
-  <cell id="118" fill="6" region="-127" translation="28.066705511933588 14.300700741795723 0.0" universe="7"/>
-  <cell id="119" fill="6" region="-128" translation="25.484035322810843 18.515235447212905 0.0" universe="7"/>
-  <cell id="120" fill="6" region="-129" translation="22.27386360737625 22.273863607376246 0.0" universe="7"/>
-  <cell id="121" fill="6" region="-130" translation="18.515235447212905 25.484035322810843 0.0" universe="7"/>
-  <cell id="122" fill="6" region="-131" translation="14.300700741795724 28.066705511933584 0.0" universe="7"/>
-  <cell id="123" fill="6" region="-132" translation="9.734035322810845 29.958280263297336 0.0" universe="7"/>
-  <cell id="124" fill="6" region="-133" translation="4.927685648767274 31.11218272874684 0.0" universe="7"/>
-  <cell id="125" fill="6" region="-134" translation="1.9288187086570813e-15 31.5 0.0" universe="7"/>
-  <cell id="126" fill="6" region="-135" translation="-4.927685648767263 31.11218272874684 0.0" universe="7"/>
-  <cell id="127" fill="6" region="-136" translation="-9.734035322810842 29.95828026329734 0.0" universe="7"/>
-  <cell id="128" fill="6" region="-137" translation="-14.30070074179572 28.066705511933588 0.0" universe="7"/>
-  <cell id="129" fill="6" region="-138" translation="-18.515235447212902 25.484035322810843 0.0" universe="7"/>
-  <cell id="130" fill="6" region="-139" translation="-22.273863607376246 22.27386360737625 0.0" universe="7"/>
-  <cell id="131" fill="6" region="-140" translation="-25.48403532281084 18.51523544721291 0.0" universe="7"/>
-  <cell id="132" fill="6" region="-141" translation="-28.066705511933584 14.300700741795726 0.0" universe="7"/>
-  <cell id="133" fill="6" region="-142" translation="-29.958280263297336 9.734035322810847 0.0" universe="7"/>
-  <cell id="134" fill="6" region="-143" translation="-31.112182728746838 4.927685648767276 0.0" universe="7"/>
-  <cell id="135" fill="6" region="-144" translation="-31.5 3.857637417314163e-15 0.0" universe="7"/>
-  <cell id="136" fill="6" region="-145" translation="-31.11218272874684 -4.927685648767268 0.0" universe="7"/>
-  <cell id="137" fill="6" region="-146" translation="-29.958280263297343 -9.734035322810827 0.0" universe="7"/>
-  <cell id="138" fill="6" region="-147" translation="-28.066705511933588 -14.30070074179572 0.0" universe="7"/>
-  <cell id="139" fill="6" region="-148" translation="-25.484035322810847 -18.515235447212902 0.0" universe="7"/>
-  <cell id="140" fill="6" region="-149" translation="-22.273863607376253 -22.273863607376246 0.0" universe="7"/>
-  <cell id="141" fill="6" region="-150" translation="-18.51523544721291 -25.48403532281084 0.0" universe="7"/>
-  <cell id="142" fill="6" region="-151" translation="-14.300700741795728 -28.066705511933584 0.0" universe="7"/>
-  <cell id="143" fill="6" region="-152" translation="-9.734035322810849 -29.958280263297336 0.0" universe="7"/>
-  <cell id="144" fill="6" region="-153" translation="-4.9276856487672775 -31.112182728746838 0.0" universe="7"/>
-  <cell id="145" fill="6" region="-154" translation="-5.786456125971244e-15 -31.5 0.0" universe="7"/>
-  <cell id="146" fill="6" region="-155" translation="4.927685648767266 -31.11218272874684 0.0" universe="7"/>
-  <cell id="147" fill="6" region="-156" translation="9.734035322810838 -29.95828026329734 0.0" universe="7"/>
-  <cell id="148" fill="6" region="-157" translation="14.300700741795719 -28.06670551193359 0.0" universe="7"/>
-  <cell id="149" fill="6" region="-158" translation="18.5152354472129 -25.484035322810847 0.0" universe="7"/>
-  <cell id="150" fill="6" region="-159" translation="22.273863607376242 -22.273863607376253 0.0" universe="7"/>
-  <cell id="151" fill="6" region="-160" translation="25.48403532281084 -18.51523544721291 0.0" universe="7"/>
-  <cell id="152" fill="6" region="-161" translation="28.066705511933584 -14.30070074179573 0.0" universe="7"/>
-  <cell id="153" fill="6" region="-162" translation="29.958280263297336 -9.73403532281085 0.0" universe="7"/>
-  <cell id="154" fill="6" region="-163" translation="31.112182728746838 -4.92768564876728 0.0" universe="7"/>
-  <cell id="155" name="Core" fill="5" region="-8 12 -17" universe="8"/>
-  <cell id="156" name="Graphite Reflector" material="4" region="8 -9 18 -19 (-6 | 7 | -20 | 19)" universe="8"/>
-  <cell id="157" name="Lazy Susan" fill="7" region="6 -7 20 -19" universe="8"/>
-  <cell id="158" name="Bottom Grid" material="5" region="-8 22 -12" universe="8"/>
-  <cell id="159" name="Top Grid" material="5" region="-8 17 -23" universe="8"/>
-  <cell id="160" name="Pool Water" material="3" region="166 -165 -164 (8 | -12 | 17) (-8 | 9 | -18 | 19 | (6 -7 20 -19)) (-6 | 7 | -20 | 19) (8 | -22 | 12) (8 | -17 | 23)" universe="8"/>
-  <surface id="1" type="z-cylinder" coeffs="0.0 0.0 0.3"/>
-  <surface id="2" type="z-cylinder" coeffs="0.0 0.0 1.9"/>
-  <surface id="3" type="z-cylinder" coeffs="0.0 0.0 1.95"/>
-  <surface id="4" type="z-cylinder" coeffs="0.0 0.0 1.25"/>
-  <surface id="5" type="z-cylinder" coeffs="0.0 0.0 1.5"/>
-  <surface id="6" type="z-cylinder" coeffs="0.0 0.0 29.0"/>
-  <surface id="7" type="z-cylinder" coeffs="0.0 0.0 34.0"/>
-  <surface id="8" type="z-cylinder" coeffs="0.0 0.0 24.0"/>
-  <surface id="9" type="z-cylinder" coeffs="0.0 0.0 48.0"/>
-  <surface id="10" type="z-cylinder" coeffs="0.0 0.0 1.15"/>
-  <surface id="11" type="z-cylinder" coeffs="0.0 0.0 1.25"/>
-  <surface id="12" type="z-plane" coeffs="-9.05"/>
-  <surface id="13" type="z-plane" coeffs="-9.0"/>
-  <surface id="14" type="z-plane" coeffs="0.0"/>
-  <surface id="15" type="z-plane" coeffs="38.0"/>
-  <surface id="16" type="z-plane" coeffs="44.0"/>
-  <surface id="17" type="z-plane" coeffs="44.05"/>
-  <surface id="18" type="z-plane" coeffs="-9.05"/>
-  <surface id="19" type="z-plane" coeffs="44.05"/>
-  <surface id="20" type="z-plane" coeffs="19.049999999999997"/>
-  <surface id="22" type="z-plane" coeffs="-9.55"/>
-  <surface id="23" type="z-plane" coeffs="44.55"/>
-  <surface id="24" type="z-plane" coeffs="19.049999999999997"/>
-  <surface id="25" type="z-plane" coeffs="34.15"/>
-  <surface id="26" type="z-plane" coeffs="11.45"/>
-  <surface id="27" type="z-plane" coeffs="26.55"/>
-  <surface id="28" type="z-cylinder" coeffs="0.0 0.0 1.95"/>
-  <surface id="29" type="z-cylinder" coeffs="4.2 0.0 1.95"/>
-  <surface id="30" type="z-cylinder" coeffs="2.1000000000000005 3.637306695894642 1.95"/>
-  <surface id="31" type="z-cylinder" coeffs="-2.099999999999999 3.6373066958946425 1.95"/>
-  <surface id="32" type="z-cylinder" coeffs="-4.2 5.143516556418884e-16 1.95"/>
-  <surface id="33" type="z-cylinder" coeffs="-2.100000000000002 -3.637306695894641 1.95"/>
-  <surface id="34" type="z-cylinder" coeffs="2.1000000000000005 -3.637306695894642 1.95"/>
-  <surface id="35" type="z-cylinder" coeffs="8.4 0.0 1.95"/>
-  <surface id="36" type="z-cylinder" coeffs="7.274613391789285 4.199999999999999 1.95"/>
-  <surface id="37" type="z-cylinder" coeffs="4.200000000000001 7.274613391789284 1.95"/>
-  <surface id="38" type="z-cylinder" coeffs="5.143516556418884e-16 8.4 1.95"/>
-  <surface id="39" type="z-cylinder" coeffs="-4.199999999999998 7.274613391789285 1.95"/>
-  <surface id="40" type="z-cylinder" coeffs="-7.274613391789285 4.199999999999999 1.95"/>
-  <surface id="41" type="z-cylinder" coeffs="-8.4 1.0287033112837768e-15 1.95"/>
-  <surface id="42" type="z-cylinder" coeffs="-7.274613391789287 -4.1999999999999975 1.95"/>
-  <surface id="43" type="z-cylinder" coeffs="-4.200000000000004 -7.274613391789282 1.95"/>
-  <surface id="44" type="z-cylinder" coeffs="-1.543054966925665e-15 -8.4 1.95"/>
-  <surface id="45" type="z-cylinder" coeffs="4.200000000000001 -7.274613391789284 1.95"/>
-  <surface id="46" type="z-cylinder" coeffs="7.274613391789282 -4.200000000000004 1.95"/>
-  <surface id="47" type="z-cylinder" coeffs="12.600000000000001 0.0 1.95"/>
-  <surface id="48" type="z-cylinder" coeffs="11.840127021902447 4.309453805903426 1.95"/>
-  <surface id="49" type="z-cylinder" coeffs="9.652159983299125 8.099123882050396 1.95"/>
-  <surface id="50" type="z-cylinder" coeffs="6.3000000000000025 10.911920087683928 1.95"/>
-  <surface id="51" type="z-cylinder" coeffs="2.1879670386033236 12.408577687953823 1.95"/>
-  <surface id="52" type="z-cylinder" coeffs="-2.187967038603322 12.408577687953823 1.95"/>
-  <surface id="53" type="z-cylinder" coeffs="-6.299999999999998 10.91192008768393 1.95"/>
-  <surface id="54" type="z-cylinder" coeffs="-9.652159983299123 8.099123882050398 1.95"/>
-  <surface id="55" type="z-cylinder" coeffs="-11.840127021902447 4.309453805903428 1.95"/>
-  <surface id="56" type="z-cylinder" coeffs="-12.600000000000001 1.5430549669256653e-15 1.95"/>
-  <surface id="57" type="z-cylinder" coeffs="-11.840127021902447 -4.309453805903425 1.95"/>
-  <surface id="58" type="z-cylinder" coeffs="-9.652159983299128 -8.09912388205039 1.95"/>
-  <surface id="59" type="z-cylinder" coeffs="-6.300000000000006 -10.911920087683924 1.95"/>
-  <surface id="60" type="z-cylinder" coeffs="-2.1879670386033223 -12.408577687953823 1.95"/>
-  <surface id="61" type="z-cylinder" coeffs="2.187967038603318 -12.408577687953823 1.95"/>
-  <surface id="62" type="z-cylinder" coeffs="6.299999999999993 -10.911920087683933 1.95"/>
-  <surface id="63" type="z-cylinder" coeffs="9.652159983299121 -8.0991238820504 1.95"/>
-  <surface id="64" type="z-cylinder" coeffs="11.840127021902447 -4.309453805903425 1.95"/>
-  <surface id="65" type="z-cylinder" coeffs="16.8 0.0 1.95"/>
-  <surface id="66" type="z-cylinder" coeffs="16.22755388165635 4.348159957722348 1.95"/>
-  <surface id="67" type="z-cylinder" coeffs="14.54922678357857 8.399999999999999 1.95"/>
-  <surface id="68" type="z-cylinder" coeffs="11.879393923934 11.879393923933998 1.95"/>
-  <surface id="69" type="z-cylinder" coeffs="8.400000000000002 14.549226783578568 1.95"/>
-  <surface id="70" type="z-cylinder" coeffs="4.348159957722348 16.22755388165635 1.95"/>
-  <surface id="71" type="z-cylinder" coeffs="1.0287033112837768e-15 16.8 1.95"/>
-  <surface id="72" type="z-cylinder" coeffs="-4.348159957722347 16.22755388165635 1.95"/>
-  <surface id="73" type="z-cylinder" coeffs="-8.399999999999997 14.54922678357857 1.95"/>
-  <surface id="74" type="z-cylinder" coeffs="-11.879393923933998 11.879393923934 1.95"/>
-  <surface id="75" type="z-cylinder" coeffs="-14.54922678357857 8.399999999999999 1.95"/>
-  <surface id="76" type="z-cylinder" coeffs="-16.227553881656345 4.348159957722353 1.95"/>
-  <surface id="77" type="z-cylinder" coeffs="-16.8 2.0574066225675536e-15 1.95"/>
-  <surface id="78" type="z-cylinder" coeffs="-16.22755388165635 -4.348159957722349 1.95"/>
-  <surface id="79" type="z-cylinder" coeffs="-14.549226783578574 -8.399999999999995 1.95"/>
-  <surface id="80" type="z-cylinder" coeffs="-11.879393923934005 -11.879393923933993 1.95"/>
-  <surface id="81" type="z-cylinder" coeffs="-8.400000000000007 -14.549226783578565 1.95"/>
-  <surface id="82" type="z-cylinder" coeffs="-4.348159957722347 -16.22755388165635 1.95"/>
-  <surface id="83" type="z-cylinder" coeffs="-3.08610993385133e-15 -16.8 1.95"/>
-  <surface id="84" type="z-cylinder" coeffs="4.348159957722341 -16.227553881656352 1.95"/>
-  <surface id="85" type="z-cylinder" coeffs="8.400000000000002 -14.549226783578568 1.95"/>
-  <surface id="86" type="z-cylinder" coeffs="11.879393923933996 -11.879393923934002 1.95"/>
-  <surface id="87" type="z-cylinder" coeffs="14.549226783578565 -8.400000000000007 1.95"/>
-  <surface id="88" type="z-cylinder" coeffs="16.227553881656345 -4.348159957722363 1.95"/>
-  <surface id="89" type="z-cylinder" coeffs="21.0 0.0 1.95"/>
-  <surface id="90" type="z-cylinder" coeffs="20.54109961540992 4.366145507172946 1.95"/>
-  <surface id="91" type="z-cylinder" coeffs="19.18445461049462 8.541469504591802 1.95"/>
-  <surface id="92" type="z-cylinder" coeffs="16.989356881873896 12.343490298141935 1.95"/>
-  <surface id="93" type="z-cylinder" coeffs="14.051742733536024 15.606041335025276 1.95"/>
-  <surface id="94" type="z-cylinder" coeffs="10.500000000000002 18.186533479473212 1.95"/>
-  <surface id="95" type="z-cylinder" coeffs="6.4893568818738965 19.972186842198223 1.95"/>
-  <surface id="96" type="z-cylinder" coeffs="2.1950977286207225 20.88495980273374 1.95"/>
-  <surface id="97" type="z-cylinder" coeffs="-2.19509772862072 20.884959802733743 1.95"/>
-  <surface id="98" type="z-cylinder" coeffs="-6.489356881873894 19.972186842198226 1.95"/>
-  <surface id="99" type="z-cylinder" coeffs="-10.499999999999995 18.186533479473212 1.95"/>
-  <surface id="100" type="z-cylinder" coeffs="-14.051742733536017 15.606041335025283 1.95"/>
-  <surface id="101" type="z-cylinder" coeffs="-16.989356881873896 12.343490298141939 1.95"/>
-  <surface id="102" type="z-cylinder" coeffs="-19.18445461049462 8.5414695045918 1.95"/>
-  <surface id="103" type="z-cylinder" coeffs="-20.54109961540992 4.366145507172946 1.95"/>
-  <surface id="104" type="z-cylinder" coeffs="-21.0 1.1897631685060758e-14 1.95"/>
-  <surface id="105" type="z-cylinder" coeffs="-20.54109961540992 -4.3661455071729405 1.95"/>
-  <surface id="106" type="z-cylinder" coeffs="-19.18445461049462 -8.541469504591804 1.95"/>
-  <surface id="107" type="z-cylinder" coeffs="-16.9893568818739 -12.343490298141933 1.95"/>
-  <surface id="108" type="z-cylinder" coeffs="-14.051742733536027 -15.606041335025274 1.95"/>
-  <surface id="109" type="z-cylinder" coeffs="-10.500000000000009 -18.186533479473205 1.95"/>
-  <surface id="110" type="z-cylinder" coeffs="-6.489356881873899 -19.972186842198223 1.95"/>
-  <surface id="111" type="z-cylinder" coeffs="-2.195097728620739 -20.88495980273374 1.95"/>
-  <surface id="112" type="z-cylinder" coeffs="2.1950977286207127 -20.884959802733743 1.95"/>
-  <surface id="113" type="z-cylinder" coeffs="6.489356881873892 -19.972186842198226 1.95"/>
-  <surface id="114" type="z-cylinder" coeffs="10.500000000000002 -18.186533479473212 1.95"/>
-  <surface id="115" type="z-cylinder" coeffs="14.051742733536027 -15.606041335025274 1.95"/>
-  <surface id="116" type="z-cylinder" coeffs="16.989356881873896 -12.34349029814194 1.95"/>
-  <surface id="117" type="z-cylinder" coeffs="19.18445461049462 -8.541469504591802 1.95"/>
-  <surface id="118" type="z-cylinder" coeffs="20.54109961540992 -4.366145507172939 1.95"/>
-  <surface id="119" type="z-cylinder" coeffs="0.0 0.0 1.8"/>
-  <surface id="120" type="z-cylinder" coeffs="0.0 0.0 1.9"/>
-  <surface id="121" type="z-cylinder" coeffs="0.0 0.0 1.8"/>
-  <surface id="122" type="z-cylinder" coeffs="0.0 0.0 1.9"/>
-  <surface id="123" type="z-cylinder" coeffs="0.0 0.0 60"/>
-  <surface id="124" type="z-cylinder" coeffs="31.5 0.0 1.9"/>
-  <surface id="125" type="z-cylinder" coeffs="31.11218272874684 4.927685648767272 1.9"/>
-  <surface id="126" type="z-cylinder" coeffs="29.958280263297336 9.734035322810843 1.9"/>
-  <surface id="127" type="z-cylinder" coeffs="28.066705511933588 14.300700741795723 1.9"/>
-  <surface id="128" type="z-cylinder" coeffs="25.484035322810843 18.515235447212905 1.9"/>
-  <surface id="129" type="z-cylinder" coeffs="22.27386360737625 22.273863607376246 1.9"/>
-  <surface id="130" type="z-cylinder" coeffs="18.515235447212905 25.484035322810843 1.9"/>
-  <surface id="131" type="z-cylinder" coeffs="14.300700741795724 28.066705511933584 1.9"/>
-  <surface id="132" type="z-cylinder" coeffs="9.734035322810845 29.958280263297336 1.9"/>
-  <surface id="133" type="z-cylinder" coeffs="4.927685648767274 31.11218272874684 1.9"/>
-  <surface id="134" type="z-cylinder" coeffs="1.9288187086570813e-15 31.5 1.9"/>
-  <surface id="135" type="z-cylinder" coeffs="-4.927685648767263 31.11218272874684 1.9"/>
-  <surface id="136" type="z-cylinder" coeffs="-9.734035322810842 29.95828026329734 1.9"/>
-  <surface id="137" type="z-cylinder" coeffs="-14.30070074179572 28.066705511933588 1.9"/>
-  <surface id="138" type="z-cylinder" coeffs="-18.515235447212902 25.484035322810843 1.9"/>
-  <surface id="139" type="z-cylinder" coeffs="-22.273863607376246 22.27386360737625 1.9"/>
-  <surface id="140" type="z-cylinder" coeffs="-25.48403532281084 18.51523544721291 1.9"/>
-  <surface id="141" type="z-cylinder" coeffs="-28.066705511933584 14.300700741795726 1.9"/>
-  <surface id="142" type="z-cylinder" coeffs="-29.958280263297336 9.734035322810847 1.9"/>
-  <surface id="143" type="z-cylinder" coeffs="-31.112182728746838 4.927685648767276 1.9"/>
-  <surface id="144" type="z-cylinder" coeffs="-31.5 3.857637417314163e-15 1.9"/>
-  <surface id="145" type="z-cylinder" coeffs="-31.11218272874684 -4.927685648767268 1.9"/>
-  <surface id="146" type="z-cylinder" coeffs="-29.958280263297343 -9.734035322810827 1.9"/>
-  <surface id="147" type="z-cylinder" coeffs="-28.066705511933588 -14.30070074179572 1.9"/>
-  <surface id="148" type="z-cylinder" coeffs="-25.484035322810847 -18.515235447212902 1.9"/>
-  <surface id="149" type="z-cylinder" coeffs="-22.273863607376253 -22.273863607376246 1.9"/>
-  <surface id="150" type="z-cylinder" coeffs="-18.51523544721291 -25.48403532281084 1.9"/>
-  <surface id="151" type="z-cylinder" coeffs="-14.300700741795728 -28.066705511933584 1.9"/>
-  <surface id="152" type="z-cylinder" coeffs="-9.734035322810849 -29.958280263297336 1.9"/>
-  <surface id="153" type="z-cylinder" coeffs="-4.9276856487672775 -31.112182728746838 1.9"/>
-  <surface id="154" type="z-cylinder" coeffs="-5.786456125971244e-15 -31.5 1.9"/>
-  <surface id="155" type="z-cylinder" coeffs="4.927685648767266 -31.11218272874684 1.9"/>
-  <surface id="156" type="z-cylinder" coeffs="9.734035322810838 -29.95828026329734 1.9"/>
-  <surface id="157" type="z-cylinder" coeffs="14.300700741795719 -28.06670551193359 1.9"/>
-  <surface id="158" type="z-cylinder" coeffs="18.5152354472129 -25.484035322810847 1.9"/>
-  <surface id="159" type="z-cylinder" coeffs="22.273863607376242 -22.273863607376253 1.9"/>
-  <surface id="160" type="z-cylinder" coeffs="25.48403532281084 -18.51523544721291 1.9"/>
-  <surface id="161" type="z-cylinder" coeffs="28.066705511933584 -14.30070074179573 1.9"/>
-  <surface id="162" type="z-cylinder" coeffs="29.958280263297336 -9.73403532281085 1.9"/>
-  <surface id="163" type="z-cylinder" coeffs="31.112182728746838 -4.92768564876728 1.9"/>
-  <surface id="164" type="z-cylinder" boundary="vacuum" coeffs="0.0 0.0 100.0"/>
-  <surface id="165" type="z-plane" boundary="vacuum" coeffs="200.0"/>
-  <surface id="166" type="z-plane" boundary="vacuum" coeffs="-100.0"/>
+  <cell id="1" material="1" region="1 -2" universe="1"/>
+  <cell id="2" material="2" region="(3 -1) | (2 -4)" universe="1"/>
+  <cell id="3" material="3" region="(5 -3) | (4 -6)" universe="1"/>
+  <cell id="4" fill="2" region="7 -8 9 -10 11 -12" universe="3"/>
+  <cell id="5" material="3" region="-7 | 8 | -9 | 10 | -11 | 12" universe="3"/>
+  <cell id="8" fill="4" region="20 -21 22 -23 11 -12" universe="5"/>
+  <cell id="9" material="3" region="(-20 | 21 | -22 | 23 | -11 | 12) -13" universe="5"/>
+  <lattice id="2" name="MTR Assembly">
+    <pitch>0.381 7.6</pitch>
+    <dimension>21 1</dimension>
+    <lower_left>-4.0005 -3.8</lower_left>
+    <universes>
+1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 </universes>
+  </lattice>
+  <lattice id="4" name="3x3 Core Lattice">
+    <pitch>8.001 7.6</pitch>
+    <dimension>3 3</dimension>
+    <lower_left>-12.0015 -11.399999999999999</lower_left>
+    <universes>
+3 3 3 
+3 3 3 
+3 3 3 </universes>
+  </lattice>
+  <surface id="1" name="Meat Left" type="x-plane" coeffs="-0.0255"/>
+  <surface id="2" name="Meat Right" type="x-plane" coeffs="0.0255"/>
+  <surface id="3" name="Clad Left" type="x-plane" coeffs="-0.0635"/>
+  <surface id="4" name="Clad Right" type="x-plane" coeffs="0.0635"/>
+  <surface id="5" name="Pitch Left" type="x-plane" coeffs="-0.1905"/>
+  <surface id="6" name="Pitch Right" type="x-plane" coeffs="0.1905"/>
+  <surface id="7" name="minimum x" type="x-plane" coeffs="-4.0005"/>
+  <surface id="8" name="maximum x" type="x-plane" coeffs="4.0005"/>
+  <surface id="9" name="minimum y" type="y-plane" coeffs="-3.8"/>
+  <surface id="10" name="maximum y" type="y-plane" coeffs="3.8"/>
+  <surface id="11" type="z-plane" coeffs="-30.0"/>
+  <surface id="12" type="z-plane" coeffs="30.0"/>
+  <surface id="13" type="z-cylinder" boundary="vacuum" coeffs="0.0 0.0 100.0"/>
+  <surface id="20" name="minimum x" type="x-plane" coeffs="-12.0015"/>
+  <surface id="21" name="maximum x" type="x-plane" coeffs="12.0015"/>
+  <surface id="22" name="minimum y" type="y-plane" coeffs="-11.399999999999999"/>
+  <surface id="23" name="maximum y" type="y-plane" coeffs="11.399999999999999"/>
 </geometry>

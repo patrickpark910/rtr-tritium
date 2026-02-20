@@ -1,71 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <materials>
-  <material id="1" name="Fuel" depletable="true" temperature="600.0">
-    <density value="6.0" units="g/cm3"/>
-    <nuclide name="U235" wo="0.02"/>
-    <nuclide name="U238" wo="0.08"/>
-    <nuclide name="Zr90" wo="0.44839419713414885"/>
-    <nuclide name="Zr91" wo="0.09887258774777023"/>
-    <nuclide name="Zr92" wo="0.1527902512428638"/>
-    <nuclide name="Zr94" wo="0.1582110356993428"/>
-    <nuclide name="Zr96" wo="0.02603192817587437"/>
-    <nuclide name="H1" wo="0.015695114280081378"/>
-    <nuclide name="H2" wo="4.8857199186216605e-06"/>
-    <sab name="c_H_in_ZrH"/>
-    <sab name="c_Zr_in_ZrH"/>
+  <material id="1" name="LEU U3Si2" depletable="true">
+    <density value="12.2" units="g/cm3"/>
+    <nuclide name="U235" wo="0.1830825"/>
+    <nuclide name="U238" wo="0.7439175"/>
+    <nuclide name="Si28" wo="0.06706766761647083"/>
+    <nuclide name="Si29" wo="0.0035271777137340686"/>
+    <nuclide name="Si30" wo="0.002405154669795095"/>
   </material>
-  <material id="2" name="Zr rod">
-    <density value="6.5" units="g/cm3"/>
-    <nuclide name="Zr90" ao="0.5145"/>
-    <nuclide name="Zr91" ao="0.1122"/>
-    <nuclide name="Zr92" ao="0.1715"/>
-    <nuclide name="Zr94" ao="0.1738"/>
-    <nuclide name="Zr96" ao="0.028"/>
+  <material id="2" name="Aluminum Clad">
+    <density value="2.7" units="g/cm3"/>
+    <nuclide name="Al27" ao="1.0"/>
   </material>
-  <material id="3" name="Water">
-    <density value="1.0" units="g/cm3"/>
+  <material id="3" name="Light Water">
+    <density value="0.998" units="g/cm3"/>
     <nuclide name="H1" ao="1.99968852"/>
     <nuclide name="H2" ao="0.00031148"/>
     <nuclide name="O16" ao="0.9976206"/>
     <nuclide name="O17" ao="0.000379"/>
     <nuclide name="O18" ao="0.0020004"/>
     <sab name="c_H_in_H2O"/>
-  </material>
-  <material id="4" name="Graphite">
-    <density value="1.6" units="g/cm3"/>
-    <nuclide name="C12" ao="0.988922"/>
-    <nuclide name="C13" ao="0.011078"/>
-    <sab name="c_Graphite_20p"/>
-  </material>
-  <material id="5" name="SS304">
-    <density value="7.8" units="g/cm3"/>
-    <nuclide name="Fe54" wo="0.039518907558947984"/>
-    <nuclide name="Fe56" wo="0.6433107014569371"/>
-    <nuclide name="Fe57" wo="0.015122580295722454"/>
-    <nuclide name="Fe58" wo="0.002047810688392412"/>
-    <nuclide name="Cr50" wo="0.008347373245436626"/>
-    <nuclide name="Cr52" wo="0.1673987247026918"/>
-    <nuclide name="Cr53" wo="0.01934717363735037"/>
-    <nuclide name="Cr54" wo="0.004906728414521229"/>
-    <nuclide name="Ni58" wo="0.0671977052965899"/>
-    <nuclide name="Ni60" wo="0.026775962899229563"/>
-    <nuclide name="Ni61" wo="0.0011833590852967102"/>
-    <nuclide name="Ni62" wo="0.0038348223034871697"/>
-    <nuclide name="Ni64" wo="0.00100815041539667"/>
-  </material>
-  <material id="6" name="Air">
-    <density value="0.0012" units="g/cm3"/>
-    <nuclide name="N14" wo="0.7520382960485181"/>
-    <nuclide name="N15" wo="0.0029617039514817788"/>
-    <nuclide name="O16" wo="0.23138447449178834"/>
-    <nuclide name="O17" wo="9.34227894827603e-05"/>
-    <nuclide name="O18" wo="0.0005221027187288978"/>
-    <nuclide name="Ar36" wo="3.9046970103720504e-05"/>
-    <nuclide name="Ar38" wo="7.770672516955858e-06"/>
-    <nuclide name="Ar40" wo="0.012953182357379323"/>
-  </material>
-  <material id="7" name="Helium-3">
-    <density value="0.008375" units="g/cm3"/>
-    <nuclide name="He3" ao="1.0"/>
   </material>
 </materials>
