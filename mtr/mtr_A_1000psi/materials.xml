@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<materials>
+  <material id="1" name="U3Si2-Al" depletable="true" volume="7821" temperature="600">
+    <density value="6.732" units="g/cm3"/>
+    <nuclide name="Al27" wo="0.231"/>
+    <nuclide name="Si28" wo="0.051449169678388584"/>
+    <nuclide name="Si29" wo="0.002705780163960382"/>
+    <nuclide name="Si30" wo="0.0018450501576510318"/>
+    <nuclide name="U235" wo="0.1408175"/>
+    <nuclide name="U238" wo="0.5721824999999999"/>
+  </material>
+  <material id="2" name="Aluminum">
+    <density value="2.7" units="g/cm3"/>
+    <nuclide name="Al27" ao="1.0"/>
+  </material>
+  <material id="3" name="Water">
+    <density value="1.0" units="g/cm3"/>
+    <nuclide name="H1" ao="1.99968852"/>
+    <nuclide name="H2" ao="0.00031148"/>
+    <nuclide name="O16" ao="0.9976206"/>
+    <nuclide name="O17" ao="0.000379"/>
+    <nuclide name="O18" ao="0.0020004"/>
+    <sab name="c_H_in_H2O"/>
+  </material>
+  <material id="4" name="316L stainless steel">
+    <density value="8.0" units="g/cm3"/>
+    <nuclide name="Si28" wo="0.9187351728283676"/>
+    <nuclide name="Si29" wo="0.04831750292786396"/>
+    <nuclide name="Si30" wo="0.03294732424376842"/>
+    <nuclide name="Cr50" wo="0.7095267258621132"/>
+    <nuclide name="Cr52" wo="14.228891599728803"/>
+    <nuclide name="Cr53" wo="1.6445097591747813"/>
+    <nuclide name="Cr54" wo="0.4170719152343044"/>
+    <nuclide name="Mn55" wo="2.0"/>
+    <nuclide name="Fe54" wo="3.6978406358729905"/>
+    <nuclide name="Fe56" wo="60.19550135061341"/>
+    <nuclide name="Fe57" wo="1.4150414419568869"/>
+    <nuclide name="Fe58" wo="0.19161657155671855"/>
+    <nuclide name="Ni58" wo="8.063724635590788"/>
+    <nuclide name="Ni60" wo="3.213115547907547"/>
+    <nuclide name="Ni61" wo="0.1420030902356052"/>
+    <nuclide name="Ni62" wo="0.46017867641846033"/>
+    <nuclide name="Ni64" wo="0.12097804984760038"/>
+    <nuclide name="Mo92" wo="0.3507972845098637"/>
+    <nuclide name="Mo94" wo="0.22478295951575072"/>
+    <nuclide name="Mo95" wo="0.39251160972576205"/>
+    <nuclide name="Mo96" wo="0.416633408784015"/>
+    <nuclide name="Mo97" wo="0.24193988768826089"/>
+    <nuclide name="Mo98" wo="0.619684308908685"/>
+    <nuclide name="Mo100" wo="0.25365054086766264"/>
+  </material>
+  <material id="5" name="Helium-3" depletable="true" volume="5890.5">
+    <density value="0.008336794554430935" units="g/cm3"/>
+    <nuclide name="He3" ao="2e-06"/>
+    <nuclide name="He4" ao="0.999998"/>
+  </material>
+</materials>
