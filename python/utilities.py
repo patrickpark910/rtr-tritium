@@ -1,3 +1,58 @@
+import os 
+"""
+MATPLOTLIB SETTINGS
+"""
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+
+# Fonts
+# try:
+#     font_path = './Python/fonts/DIN-Regular.ttf' # DIN-Regular.ttf' # './Python/arial.ttf'
+#     fm.fontManager.addfont(font_path)
+#     prop = fm.FontProperties(fname=font_path)
+#     plt.rcParams['font.family'] = prop.get_name()
+# except:
+font_path = './python/fonts/arial.ttf' # './arial.ttf'
+fm.fontManager.addfont(font_path)
+prop = fm.FontProperties(fname=font_path)
+plt.rcParams['font.family'] = prop.get_name()
+
+# Ticks
+plt.rcParams['xtick.direction'] = 'in'
+plt.rcParams['ytick.direction'] = 'in'
+plt.rcParams['xtick.major.width'] = 0.5   # major x‐tick line width
+plt.rcParams['ytick.major.width'] = 0.5   # major y‐tick line width
+plt.rcParams['xtick.major.size'] = 6      # major x‐tick line length
+plt.rcParams['ytick.major.size'] = 6      # major y‐tick line length
+plt.rcParams['xtick.minor.size'] = 3      # minor x‐tick line length
+plt.rcParams['ytick.minor.size'] = 3      # minor y‐tick line length
+plt.rcParams['axes.linewidth']    = 0.5   # axes spines linewidth (use this instead of messing with spine.set_linewidth(1) )
+
+# Font sizes
+plt.rcParams['font.size']          = 14   # default text size for labels, legends, etc.
+plt.rcParams['axes.titlesize']     = 14   # axes title
+plt.rcParams['axes.labelsize']     = 16   # x- and y-axis labels
+plt.rcParams['xtick.labelsize']    = 14   # x-tick labels
+plt.rcParams['ytick.labelsize']    = 14   # y-tick labels
+plt.rcParams['legend.fontsize']    = 12   # legend text
+plt.rcParams['figure.titlesize']   = 14   # figure title
+
+
+def has_statepoint(directory_path):
+    """
+    Check if any file starting with 'statepoint' exists in the given directory.
+    
+    Args:
+        directory_path (str): Path to the directory to search
+    
+    Returns:
+        bool: True if a file starting with 'statepoint' is found, False otherwise
+    """
+    found = False
+    for filename in os.listdir(directory_path):
+        if filename.startswith("statepoint"):
+            found = True
+    return found
 
 
 def rho_he3(T, P, units='psi'):

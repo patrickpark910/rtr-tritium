@@ -25,7 +25,7 @@ class Reactor:
         model = None
 
         if   self.reactor == 'sigma':
-            self.model = build_sigma(pattern=self.pattern, he3_pressure=self.he3_pressure, he3_units=self.he3_units)
+            self.model = build_sigma(he3_pressure=self.he3_pressure, he3_units=self.he3_units)
         
         elif self.reactor == 'mtr':
             self.model = build_mtr(pattern=self.pattern, he3_pressure=self.he3_pressure, he3_units=self.he3_units)
@@ -47,8 +47,12 @@ class Reactor:
             openmc.plot_geometry(cwd=self.path)
 
         if runtype == 'run':
-            print(f"Comment. <main.py/openmc()> Running simulation: {self.path}/model.xml")
-            openmc.run(cwd=self.path, threads=32)
+
+            if not has_statepoint(self.path):
+                print(f"Comment. <main.py/openmc()> Running simulation: {self.path}/model.xml")
+                openmc.run(cwd=self.path, threads=28)
+            else:
+                print(f"Comment. <main.py/openmc()> Statepoint already exists for: {self.path}/model.xml")
 
         if runtype == 'deplete':
             print(f"Comment. <main.py/openmc()> Running depletion: {self.path}")
@@ -72,14 +76,16 @@ class Reactor:
 
 
     def extract_tallies(self):
-        # plot_sigma(self.path)
-        plot_np_tallies(self.path)
+
+        if self.reactor == 'sigma':       
+            extract_sigma(self.path)
+            plot_sigma(self.path)
 
 
 if __name__ == "__main__":
     
-    current_run = Reactor('mtr', pattern='A')
+    current_run = Reactor('sigma')
     current_run.build_reactor()
-    current_run.openmc(runtype='deplete')
+    current_run.openmc(runtype='run')
     current_run.extract_tallies()
 
