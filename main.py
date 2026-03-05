@@ -17,7 +17,14 @@ class Reactor:
         self.pattern  = pattern
         self.he3_pressure = he3_pressure
         self.he3_units    = he3_units
-        self.path    = f'./{reactor}/{reactor}_{pattern}_{round(he3_pressure)}{he3_units}'
+
+        if self.reactor in ['sigma']:
+            self.n_particles, self.n_batches = SIGMA_PARTICLES, SIGMA_BATCHES
+        else:
+            self.n_particles, self.n_batches = int(4e6), 25
+
+        n = f"{self.n_particles:.0e}".replace("+0", "").replace("+", "")
+        self.path    = f'./{reactor}/{reactor}_{pattern}_{round(he3_pressure)}{he3_units}_{n}x{self.n_batches}'
 
 
     def build_reactor(self):
@@ -57,10 +64,8 @@ class Reactor:
         if runtype == 'deplete':
             print(f"Comment. <main.py/openmc()> Running depletion: {self.path}")
             
+            chain_file = os.path.abspath("/home/patri/openmc/data/chain_endfb81_thermal.xml") 
             
-            chain_file = os.path.abspath("/home/patri/openmc/data/chain_endfb81_thermal.xml")  # 
-            
-            # 2. Switch Python's CWD to your target output folder
             with contextlib.chdir(self.path):
                 
                 # All OpenMC C++ operations inside this block now target self.path
@@ -71,15 +76,15 @@ class Reactor:
 
                 integrator = openmc.deplete.PredictorIntegrator(operator, timesteps, timestep_units='d', power=power)
                 
-                # You no longer need the 'path' argument here since the CWD is already self.path
+                # No longer need 'path' argument here since the CWD is already self.path
                 integrator.integrate(final_step=True, output=True, write_rates=True)
 
 
     def extract_tallies(self):
 
         if self.reactor == 'sigma':       
-            extract_sigma(self.path)
-            plot_sigma(self.path)
+            extract_sigma(self.path, he3_pressure=1000.0, he3_units='psi')
+            # plot_sigma(self.path)
 
 
 if __name__ == "__main__":

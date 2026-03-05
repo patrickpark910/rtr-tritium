@@ -3,6 +3,6 @@
 .DS_Store
 __pycache__/
 *.pyc
-/sigma/sigma_R_1000psi/raw_data.csv
-/sigma/sigma_R_1000psi/statepoint.25.h5
-/sigma/sigma_R_1000psi/tallies.out
+/sigma/**/raw_data.csv
+/sigma/**/statepoint.25.h5
+/sigma/**/tallies.out

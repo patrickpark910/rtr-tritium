@@ -55,38 +55,43 @@ def has_statepoint(directory_path):
     return found
 
 
-def rho_he3(T, P, units='psi'):
+def rho_he3(T, P, units='psi', output_units='g/cc'):
     """
-    Calculate the rho_he3 of helium-3 gas given temperature and pressure.
+    Calculate density of helium-3 gas given temperature and pressure.
 
     Parameters:
         T (float): Temperature in Kelvin
-        P (float): Pressure in Pascals
+        P (float): Pressure in Pascals or psi
 
     Returns:
-        float: rho_he3 of helium-3 gas in kg/m^3
+        float: density of helium-3 gas in g/cm^3 or at/cm^3 depending on output_units
     """
 
+    # Convert pressure to Pascals
     if units not in ['psi', 'atm', 'Pa']:
         raise ValueError("Warning. <utilities.py/rho_he3()> Unsupported units for pressure. Use 'psi', 'atm', or 'Pa'.")
+
+    elif units in ['psi']:  P = P * 6894.75729  # 1 psi = 6894.75729 Pa
+    elif units in ['atm']:  P = P * 101325.0    # 1 atm = 101325 Pa
     
-    elif units in ['psi']:
-        P = P * 6894.75729  # 1 psi = 6894.75729 Pa
+    if output_units not in ['g/cm^3', 'g/cc', 'at/cm^3', 'at/cc']:
+        raise ValueError("Warning. <utilities.py/rho_he3()> Unsupported units for He-3 density output units. Use 'g/cm^3', 'g/cc', 'at/cm^3', 'at/cc'.")
 
-    elif units in ['atm']:
-        P = P * 101325.0  # 1 atm = 101325 Pa
-
-    # Molar mass of helium-3 in kg/mol
     amu_he3 = 3.0160293e-3  # kg/mol
+    R       = 8.314462618   # J/(mol*K)
 
-    # Universal gas constant in J/(mol*K)
-    R = 8.314462618  # J/(mol*K)
+    # Calculate density using the ideal gas law
 
-    # Calculate the rho_he3 using the ideal gas law: ρ = (P * M) / (R * T)
-    rho_kgm3 = (P * amu_he3) / (R * T)
-    rho_gcm3 = rho_kgm3 / 1000.0  # Convert kg/m^3 to g/cm^3
+    if output_units in ['g/cm^3', 'g/cc']:
+        rho_kgm3 = (P * amu_he3) / (R * T)
+        rho_gcm3 = rho_kgm3 / 1000.0  # Convert kg/m^3 to g/cm^3
+        return rho_gcm3
+    
+    elif output_units in ['at/cm^3', 'at/cc']:
+        n_m3 = (P * 6.022e23) / (R * T)
+        n_cm3 = n_m3 / 1e6  # Convert from atoms/m^3 to atoms/cm^3
+        return n_cm3
 
-    return rho_gcm3
 
 
 if __name__ == "__main__":
