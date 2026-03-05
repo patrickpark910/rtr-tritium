@@ -13,7 +13,7 @@ from python.utilities import *
 SIGMA_BOX_DEPTH = 2.0  # [cm]
 SIGMA_BOX_BINS  = 200  # [bins] over SIGMA_BOX_DEPTH
 SIGMA_E_BINS    = 20000
-SIGMA_PARTICLES = int(4e10)
+SIGMA_PARTICLES = int(4e7)
 SIGMA_BATCHES   = 25
 SIGMA_TEMP_K    = 300.0
 
@@ -63,8 +63,8 @@ def build_sigma(he3_pressure=1000.0, he3_units='psi'):
     Define a Maxwellian thermal source with most probable velocity corresponding to 0.0253 eV.
     """
     source_dist = openmc.stats.Box([-0.5, -0.5, 0.0], [0.5, 0.5, 0.0])
-    energy_dist = openmc.stats.Maxwell(theta=0.0253)
     angle_dist = openmc.stats.Monodirectional(reference_uvw=(0.0, 0.0, 1.0))
+    energy_dist = openmc.stats.Maxwell(theta=0.0253)
 
     source = openmc.IndependentSource(space=source_dist, energy=energy_dist, angle=angle_dist)
     settings.source = source
@@ -126,7 +126,13 @@ def extract_sigma(path, he3_pressure=1000.0, he3_units='psi'):
     # Flatten the multi-index columns into single string column names for easier handling
     # This converts ('mesh 1', 'z') to 'mesh 1_z' and ('mean', '') to 'mean'
     df1.columns = df1.columns.map(lambda x: x[0] if x[1] == '' else f"{x[0]}_{x[1]}")
-    df1['z mid [cm]'] = (df1['mesh 1_z'] - 0.5) * SIGMA_BOX_DEPTH / SIGMA_BOX_BINS
+
+    print(df1.head(4))
+
+    try:
+        df1['z mid [cm]'] = (df1['mesh 1_z'] - 0.5) * SIGMA_BOX_DEPTH / SIGMA_BOX_BINS
+    except:
+        df1['z mid [cm]'] = (df1['mesh 2_z'] - 0.5) * SIGMA_BOX_DEPTH / SIGMA_BOX_BINS
 
     # Filter for the (n,p) reaction score
     df_np    = df1[df1['score'] == '(n,p)'].copy()
@@ -149,8 +155,12 @@ def extract_sigma(path, he3_pressure=1000.0, he3_units='psi'):
     """
 
     # Group by the Z mesh index and find the index of the max reaction rate
-    df_np_modes_idx = df_np.groupby("mesh 1_z")['mean'].idxmax()
-    df_fluxV_modes_idx = df_fluxV.groupby("mesh 1_z")['mean'].idxmax()
+    try:
+        df_np_modes_idx = df_np.groupby("mesh 1_z")['mean'].idxmax()
+        df_fluxV_modes_idx = df_fluxV.groupby("mesh 1_z")['mean'].idxmax()
+    except:
+        df_np_modes_idx = df_np.groupby("mesh 2_z")['mean'].idxmax()
+        df_fluxV_modes_idx = df_fluxV.groupby("mesh 2_z")['mean'].idxmax()
 
     df_np_modes     = df_np.loc[df_np_modes_idx].copy()
     df_fluxV_modes  = df_fluxV.loc[df_fluxV_modes_idx].copy()
@@ -174,7 +184,17 @@ def extract_sigma(path, he3_pressure=1000.0, he3_units='psi'):
     tally2 = sp.get_tally(name='Spatial tally')
     df2 = tally2.get_pandas_dataframe()
     df2.columns = df2.columns.map(lambda x: x[0] if x[1] == '' else f"{x[0]}_{x[1]}")
-    df2['z mid [cm]'] = (df2['mesh 1_z'] - 0.5) * SIGMA_BOX_DEPTH / SIGMA_BOX_BINS
+
+    try:
+        df2['z mid [cm]'] = (df2['mesh 1_z'] - 0.5) * SIGMA_BOX_DEPTH / SIGMA_BOX_BINS
+        df_totals = df2.pivot(index=['mesh 1_z', 'z mid [cm]'], 
+                          columns='score', 
+                          values=['mean', 'std. dev.'])
+    except:
+        df2['z mid [cm]'] = (df2['mesh 2_z'] - 0.5) * SIGMA_BOX_DEPTH / SIGMA_BOX_BINS
+        df_totals = df2.pivot(index=['mesh 2_z', 'z mid [cm]'], 
+                          columns='score', 
+                          values=['mean', 'std. dev.'])
 
     """
     >>> print(df2.head(4))
@@ -185,9 +205,6 @@ def extract_sigma(path, he3_pressure=1000.0, he3_units='psi'):
     3         1         1         2   total  (n,p)  0.081297  4.892962e-06       0.015
     """
 
-    df_totals = df2.pivot(index=['mesh 1_z', 'z mid [cm]'], 
-                          columns='score', 
-                          values=['mean', 'std. dev.'])
 
     # Flatten the multi-level columns by changing (mean, flux) to 'flux' and (std. dev., flux) to 'flux sd'
     df_totals.columns = [f'{score} sd' if val == 'std. dev.' else score 
@@ -213,12 +230,20 @@ def extract_sigma(path, he3_pressure=1000.0, he3_units='psi'):
     3         4       0.035      0.063941          0.007216  7.308039e-08  5.001062e-09               8.861406         5323.513257
     """
 
-    # Merge the mode energy data with the total (n,p) and flux data based on the Z mesh index
-    df_totals = df_totals.merge( df_np_modes[['mesh 1_z', 'energy mid [eV]']], on='mesh 1_z', how='left')
-    df_totals = df_totals.rename(columns={'energy mid [eV]': '(n,p) mode [eV]'})
+    try:
+        # Merge the mode energy data with the total (n,p) and flux data based on the Z mesh index
+        df_totals = df_totals.merge( df_np_modes[['mesh 1_z', 'energy mid [eV]']], on='mesh 1_z', how='left')
+        df_totals = df_totals.rename(columns={'energy mid [eV]': '(n,p) mode [eV]'})
 
-    df_totals = df_totals.merge( df_fluxV_modes[['mesh 1_z', 'energy mid [eV]']], on='mesh 1_z', how='left')
-    df_totals = df_totals.rename(columns={'energy mid [eV]': 'flux mode [eV]'})
+        df_totals = df_totals.merge( df_fluxV_modes[['mesh 1_z', 'energy mid [eV]']], on='mesh 1_z', how='left')
+        df_totals = df_totals.rename(columns={'energy mid [eV]': 'flux mode [eV]'})
+    except:
+            # Merge the mode energy data with the total (n,p) and flux data based on the Z mesh index
+        df_totals = df_totals.merge( df_np_modes[['mesh 2_z', 'energy mid [eV]']], on='mesh 2_z', how='left')
+        df_totals = df_totals.rename(columns={'energy mid [eV]': '(n,p) mode [eV]'})
+
+        df_totals = df_totals.merge( df_fluxV_modes[['mesh 2_z', 'energy mid [eV]']], on='mesh 2_z', how='left')
+        df_totals = df_totals.rename(columns={'energy mid [eV]': 'flux mode [eV]'})
 
     print(df_totals.head(4))
 

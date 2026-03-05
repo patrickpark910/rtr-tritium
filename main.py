@@ -57,7 +57,7 @@ class Reactor:
 
             if not has_statepoint(self.path):
                 print(f"Comment. <main.py/openmc()> Running simulation: {self.path}/model.xml")
-                openmc.run(cwd=self.path, threads=28)
+                openmc.run(cwd=self.path, threads=32)
             else:
                 print(f"Comment. <main.py/openmc()> Statepoint already exists for: {self.path}/model.xml")
 
@@ -83,14 +83,16 @@ class Reactor:
     def extract_tallies(self):
 
         if self.reactor == 'sigma':       
-            extract_sigma(self.path, he3_pressure=1000.0, he3_units='psi')
+            extract_sigma(self.path, he3_pressure=self.he3_pressure, he3_units='psi')
             # plot_sigma(self.path)
 
 
 if __name__ == "__main__":
     
-    current_run = Reactor('sigma')
-    current_run.build_reactor()
-    current_run.openmc(runtype='run')
-    current_run.extract_tallies()
+    for p in [100.0, 500.0, 1000.0]:
+       
+        current_run = Reactor('sigma', he3_pressure=p, he3_units='psi')
+        current_run.build_reactor()
+        current_run.openmc(runtype='run')
+        current_run.extract_tallies()
 
